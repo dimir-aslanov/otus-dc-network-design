@@ -1,7 +1,7 @@
-# Network Engineer
-Лабораторные работы, курсовая и дополнительные материалы по курсу OTUS "Network Engineer".
+# Data center network design
+Лабораторные работы по курсу OTUS "Data center network design".
 
  - [Практические работы](labs/)
- - [Курсовая работа](project_work/)
+
 
 
