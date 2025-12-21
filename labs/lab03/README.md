@@ -14,7 +14,6 @@ Underlay. IS-IS
 configure terminal
 feature isis
 feature bfd
-system jumbomtu 9216
 
 key chain ISIS-KEYS
   key 1
@@ -28,7 +27,6 @@ interface loopback0
 
 interface Ethernet1/1
   no switchport
-  mtu 9216
   ip address 10.2.1.0/31
   ip router isis UNDERLAY
   isis circuit-type level-1
@@ -39,7 +37,6 @@ interface Ethernet1/1
 
 interface Ethernet1/2
   no switchport
-  mtu 9216
   ip address 10.2.1.2/31
   ip router isis UNDERLAY
   isis circuit-type level-1
@@ -50,7 +47,6 @@ interface Ethernet1/2
 
 interface Ethernet1/3
   no switchport
-  mtu 9216
   ip address 10.2.1.4/31
   ip router isis UNDERLAY
   isis circuit-type level-1
@@ -78,7 +74,6 @@ copy running-config startup-config
 configure terminal
 feature isis
 feature bfd
-system jumbomtu 9216
 
 key chain ISIS-KEYS
   key 1
@@ -93,7 +88,6 @@ interface loopback0
 
 interface Ethernet1/1
   no switchport
-  mtu 9216
   ip address 10.2.2.0/31
   ip router isis UNDERLAY
   isis circuit-type level-1
@@ -105,7 +99,6 @@ interface Ethernet1/1
 
 interface Ethernet1/2
   no switchport
-  mtu 9216
   ip address 10.2.2.2/31
   ip router isis UNDERLAY
   isis circuit-type level-1
@@ -117,7 +110,6 @@ interface Ethernet1/2
 
 interface Ethernet1/3
   no switchport
-  mtu 9216
   ip address 10.2.2.4/31
   ip router isis UNDERLAY
   isis circuit-type level-1
@@ -146,7 +138,6 @@ copy running-config startup-config
 configure terminal
 feature isis
 feature bfd
-system jumbomtu 9216
 
 key chain ISIS-KEYS
   key 1
@@ -165,7 +156,6 @@ interface loopback1
 
 interface Ethernet1/1
   no switchport
-  mtu 9216
   ip address 10.2.1.1/31
   ip router isis UNDERLAY
   isis circuit-type level-1
@@ -177,7 +167,6 @@ interface Ethernet1/1
 
 interface Ethernet1/2
   no switchport
-  mtu 9216
   ip address 10.2.2.1/31
   ip router isis UNDERLAY
   isis circuit-type level-1
@@ -205,7 +194,6 @@ copy running-config startup-config
 configure terminal
 feature isis
 feature bfd
-system jumbomtu 9216
 
 key chain ISIS-KEYS
   key 1
@@ -224,7 +212,6 @@ interface loopback1
 
 interface Ethernet1/1
   no switchport
-  mtu 9216
   ip address 10.2.1.3/31
   ip router isis UNDERLAY
   isis circuit-type level-1
@@ -236,7 +223,6 @@ interface Ethernet1/1
 
 interface Ethernet1/2
   no switchport
-  mtu 9216
   ip address 10.2.2.3/31
   ip router isis UNDERLAY
   isis circuit-type level-1
@@ -265,7 +251,6 @@ copy running-config startup-config
 configure terminal
 feature isis
 feature bfd
-system jumbomtu 9216
 
 key chain ISIS-KEYS
   key 1
@@ -284,7 +269,6 @@ interface loopback1
 
 interface Ethernet1/1
   no switchport
-  mtu 9216
   ip address 10.2.1.5/31
   ip router isis UNDERLAY
   isis circuit-type level-1
@@ -296,7 +280,6 @@ interface Ethernet1/1
 
 interface Ethernet1/2
   no switchport
-  mtu 9216
   ip address 10.2.2.5/31
   ip router isis UNDERLAY
   isis circuit-type level-1
