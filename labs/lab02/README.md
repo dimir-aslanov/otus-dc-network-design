@@ -12,8 +12,12 @@ Underlay. OSPF
 configure terminal
 feature ospf
 feature bfd
-
 system jumbomtu 9216
+
+key chain OSPF-KEYS
+  key 1
+    key-string Network123
+    cryptographic-algorithm md5
 
 interface loopback0
   description Router-ID
@@ -29,6 +33,7 @@ interface Ethernet1/1
   ip ospf network point-to-point
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
+  ip ospf authentication key-chain OSPF-KEYS
   no bfd echo
   no shutdown
 
@@ -41,6 +46,7 @@ interface Ethernet1/2
   ip ospf network point-to-point
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
+  ip ospf authentication key-chain OSPF-KEYS
   no bfd echo
   no shutdown
 
@@ -52,15 +58,13 @@ interface Ethernet1/3
   ip ospf network point-to-point
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
+  ip ospf authentication key-chain OSPF-KEYS
   no bfd echo
   no shutdown
 
 router ospf UNDERLAY
   router-id 10.0.1.1
   passive-interface default
-  no passive-interface Ethernet1/1
-  no passive-interface Ethernet1/2
-  no passive-interface Ethernet1/3
   auto-cost reference-bandwidth 100000
   bfd
   log-adjacency-changes detail
@@ -74,6 +78,11 @@ configure terminal
 feature ospf
 feature bfd
 system jumbomtu 9216
+
+key chain OSPF-KEYS
+  key 1
+    key-string Network123
+    cryptographic-algorithm md5
 
 interface loopback0
   description Router-ID
@@ -89,6 +98,7 @@ interface Ethernet1/1
   ip ospf network point-to-point
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
+  ip ospf authentication key-chain OSPF-KEYS
   no bfd echo
   no shutdown
 
@@ -100,6 +110,7 @@ interface Ethernet1/2
   ip ospf network point-to-point
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
+  ip ospf authentication key-chain OSPF-KEYS
   no bfd echo
   no shutdown
 
@@ -111,15 +122,13 @@ interface Ethernet1/3
   ip ospf network point-to-point
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
+  ip ospf authentication key-chain OSPF-KEYS
   no bfd echo
   no shutdown
 
 router ospf UNDERLAY
   router-id 10.0.2.1
   passive-interface default
-  no passive-interface Ethernet1/1
-  no passive-interface Ethernet1/2
-  no passive-interface Ethernet1/3
   auto-cost reference-bandwidth 100000
   bfd
   log-adjacency-changes detail
@@ -134,6 +143,11 @@ feature ospf
 feature bfd
 system jumbomtu 9216
 
+key chain OSPF-KEYS
+  key 1
+    key-string Network123
+    cryptographic-algorithm md5
+
 interface loopback0
   description Router-ID
   ip address 10.0.101.1/32
@@ -143,7 +157,6 @@ interface loopback0
 interface loopback1
   description VTEP_and_Services
   ip address 10.1.101.1/32
-  ip router ospf UNDERLAY area 0.0.0.0
   no shutdown
 
 interface Ethernet1/1
@@ -154,6 +167,7 @@ interface Ethernet1/1
   ip ospf network point-to-point
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
+  ip ospf authentication key-chain OSPF-KEYS
   no bfd echo
   no shutdown
 
@@ -165,14 +179,13 @@ interface Ethernet1/2
   ip ospf network point-to-point
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
+  ip ospf authentication key-chain OSPF-KEYS
   no bfd echo
   no shutdown
 
 router ospf UNDERLAY
   router-id 10.0.101.1
   passive-interface default
-  no passive-interface Ethernet1/1
-  no passive-interface Ethernet1/2
   auto-cost reference-bandwidth 100000
   bfd
   log-adjacency-changes detail
@@ -188,6 +201,11 @@ feature ospf
 feature bfd
 system jumbomtu 9216
 
+key chain OSPF-KEYS
+  key 1
+    key-string Network123
+    cryptographic-algorithm md5
+
 interface loopback0
   description Router-ID
   ip address 10.0.102.1/32
@@ -197,7 +215,6 @@ interface loopback0
 interface loopback1
   description VTEP_and_Services
   ip address 10.1.102.1/32
-  ip router ospf UNDERLAY area 0.0.0.0
   no shutdown
 
 interface Ethernet1/1
@@ -208,6 +225,7 @@ interface Ethernet1/1
   ip ospf network point-to-point
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
+  ip ospf authentication key-chain OSPF-KEYS
   no bfd echo
   no shutdown
 
@@ -219,14 +237,13 @@ interface Ethernet1/2
   ip ospf network point-to-point
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
+  ip ospf authentication key-chain OSPF-KEYS
   no bfd echo
   no shutdown
 
 router ospf UNDERLAY
   router-id 10.0.102.1
   passive-interface default
-  no passive-interface Ethernet1/1
-  no passive-interface Ethernet1/2
   auto-cost reference-bandwidth 100000
   bfd
   log-adjacency-changes detail
@@ -242,6 +259,11 @@ feature ospf
 feature bfd
 system jumbomtu 9216
 
+key chain OSPF-KEYS
+  key 1
+    key-string Network123
+    cryptographic-algorithm md5
+
 interface loopback0
   description Router-ID
   ip address 10.0.103.1/32
@@ -251,7 +273,6 @@ interface loopback0
 interface loopback1
   description VTEP_and_Services
   ip address 10.1.103.1/32
-  ip router ospf UNDERLAY area 0.0.0.0
   no shutdown
 
 interface Ethernet1/1
@@ -262,6 +283,7 @@ interface Ethernet1/1
   ip ospf network point-to-point
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
+  ip ospf authentication key-chain OSPF-KEYS
   no bfd echo
   no shutdown
 
@@ -273,14 +295,13 @@ interface Ethernet1/2
   ip ospf network point-to-point
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
+  ip ospf authentication key-chain OSPF-KEYS
   no bfd echo
   no shutdown
 
 router ospf UNDERLAY
   router-id 10.0.103.1
   passive-interface default
-  no passive-interface Ethernet1/1
-  no passive-interface Ethernet1/2
   auto-cost reference-bandwidth 100000
   bfd
   log-adjacency-changes detail
