@@ -17,7 +17,10 @@
 
 ## Общий формат
 
-`10.<Dn>.<Host>.<X>`
+$$
+IP = 10.\langle Dn \rangle.\langle Host \rangle.\langle X \rangle
+$$
+
 
 ## Назначение октетов
 
@@ -48,7 +51,8 @@
 - Spine — только underlay
 - Leaf — underlay + overlay (VTEP)
 
----
+## IP-plan
+
 
 
 
