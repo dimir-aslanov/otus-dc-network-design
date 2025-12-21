@@ -64,11 +64,11 @@ router isis UNDERLAY
   is-type level-1
   log-adjacency-changes
   bfd
-  metric-style wide
+  authentication-type md5 level-1
+  authentication key-chain ISIS-KEYS level-1
   address-family ipv4 unicast
-  passive-interface loopback0
-  authentication-type md5
-  authentication key-chain ISIS-KEYS
+    bfd
+  passive-interface default level-1-2
 
 end
 copy running-config startup-config
@@ -98,6 +98,7 @@ interface Ethernet1/1
   ip router isis UNDERLAY
   isis circuit-type level-1
   isis network point-to-point
+  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
   no shutdown
@@ -109,6 +110,7 @@ interface Ethernet1/2
   ip router isis UNDERLAY
   isis circuit-type level-1
   isis network point-to-point
+  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
   no shutdown
@@ -120,6 +122,7 @@ interface Ethernet1/3
   ip router isis UNDERLAY
   isis circuit-type level-1
   isis network point-to-point
+  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
   no shutdown
@@ -167,6 +170,7 @@ interface Ethernet1/1
   ip router isis UNDERLAY
   isis circuit-type level-1
   isis network point-to-point
+  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
   no shutdown
@@ -178,6 +182,7 @@ interface Ethernet1/2
   ip router isis UNDERLAY
   isis circuit-type level-1
   isis network point-to-point
+  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
   no shutdown
@@ -187,11 +192,11 @@ router isis UNDERLAY
   is-type level-1
   log-adjacency-changes
   bfd
-  metric-style wide
+  authentication-type md5 level-1
+  authentication key-chain ISIS-KEYS level-1
   address-family ipv4 unicast
-  passive-interface loopback0
-  authentication-type md5
-  authentication key-chain ISIS-KEYS
+    bfd
+  passive-interface default level-1-2
 
 end
 copy running-config startup-config
@@ -225,6 +230,7 @@ interface Ethernet1/1
   ip router isis UNDERLAY
   isis circuit-type level-1
   isis network point-to-point
+  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
   no shutdown
@@ -236,6 +242,7 @@ interface Ethernet1/2
   ip router isis UNDERLAY
   isis circuit-type level-1
   isis network point-to-point
+  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
   no shutdown
@@ -245,11 +252,11 @@ router isis UNDERLAY
   is-type level-1
   log-adjacency-changes
   bfd
-  metric-style wide
+  authentication-type md5 level-1
+  authentication key-chain ISIS-KEYS level-1
   address-family ipv4 unicast
-  passive-interface loopback0
-  authentication-type md5
-  authentication key-chain ISIS-KEYS
+    bfd
+  passive-interface default level-1-2
 
 end
 copy running-config startup-config
@@ -283,6 +290,7 @@ interface Ethernet1/1
   ip router isis UNDERLAY
   isis circuit-type level-1
   isis network point-to-point
+  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
   no shutdown
@@ -294,6 +302,7 @@ interface Ethernet1/2
   ip router isis UNDERLAY
   isis circuit-type level-1
   isis network point-to-point
+  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
   no shutdown
@@ -303,11 +312,11 @@ router isis UNDERLAY
   is-type level-1
   log-adjacency-changes
   bfd
-  metric-style wide
+  authentication-type md5 level-1
+  authentication key-chain ISIS-KEYS level-1
   address-family ipv4 unicast
-  passive-interface loopback0
-  authentication-type md5
-  authentication key-chain ISIS-KEYS
+    bfd
+  passive-interface default level-1-2
 
 end
 copy running-config startup-config
