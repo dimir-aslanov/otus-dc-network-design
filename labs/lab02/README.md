@@ -38,7 +38,6 @@ interface Ethernet1/1
   no bfd echo
   no shutdown
 
-
 interface Ethernet1/2
   description to-LEAF-02_Eth1/1
   no switchport
