@@ -325,3 +325,185 @@ copy running-config startup-config
 ```
 ---
 
+# Вывод CLI
+
+## SPINE-01
+```text
+SPINE-01# sh ip ospf neighbors
+ OSPF Process ID UNDERLAY VRF default
+ Total number of neighbors: 3
+ Neighbor ID     Pri State            Up Time  Address         Interface
+ 10.0.101.1        1 FULL/ -          00:02:09 10.2.1.1        Eth1/1
+ 10.0.102.1        1 FULL/ -          00:01:19 10.2.1.3        Eth1/2
+ 10.0.103.1        1 FULL/ -          00:01:12 10.2.1.5        Eth1/3
+
+SPINE-01# sh ip route ospf-UNDERLAY
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+10.0.2.1/32, ubest/mbest: 3/0
+    *via 10.2.1.1, Eth1/1, [110/201], 00:02:47, ospf-UNDERLAY, intra
+    *via 10.2.1.3, Eth1/2, [110/201], 00:02:44, ospf-UNDERLAY, intra
+    *via 10.2.1.5, Eth1/3, [110/201], 00:02:38, ospf-UNDERLAY, intra
+10.0.101.1/32, ubest/mbest: 1/0
+    *via 10.2.1.1, Eth1/1, [110/101], 00:04:24, ospf-UNDERLAY, intra
+10.0.102.1/32, ubest/mbest: 1/0
+    *via 10.2.1.3, Eth1/2, [110/101], 00:03:34, ospf-UNDERLAY, intra
+10.0.103.1/32, ubest/mbest: 1/0
+    *via 10.2.1.5, Eth1/3, [110/101], 00:03:27, ospf-UNDERLAY, intra
+10.2.2.0/31, ubest/mbest: 1/0
+    *via 10.2.1.1, Eth1/1, [110/200], 00:04:12, ospf-UNDERLAY, intra
+10.2.2.2/31, ubest/mbest: 1/0
+    *via 10.2.1.3, Eth1/2, [110/200], 00:03:34, ospf-UNDERLAY, intra
+10.2.2.4/31, ubest/mbest: 1/0
+    *via 10.2.1.5, Eth1/3, [110/200], 00:03:27, ospf-UNDERLAY, intra
+
+```
+
+## SPINE-02
+```text
+SPINE-02# sh ip ospf neighbors
+ OSPF Process ID UNDERLAY VRF default
+ Total number of neighbors: 3
+ Neighbor ID     Pri State            Up Time  Address         Interface
+ 10.0.101.1        1 FULL/ -          00:01:59 10.2.2.1        Eth1/1
+ 10.0.102.1        1 FULL/ -          00:01:54 10.2.2.3        Eth1/2
+ 10.0.103.1        1 FULL/ -          00:01:49 10.2.2.5        Eth1/3
+
+SPINE-02#  sh ip route ospf-UNDERLAY
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+10.0.1.1/32, ubest/mbest: 3/0
+    *via 10.2.2.1, Eth1/1, [110/201], 00:03:53, ospf-UNDERLAY, intra
+    *via 10.2.2.3, Eth1/2, [110/201], 00:03:53, ospf-UNDERLAY, intra
+    *via 10.2.2.5, Eth1/3, [110/201], 00:03:48, ospf-UNDERLAY, intra
+10.0.101.1/32, ubest/mbest: 1/0
+    *via 10.2.2.1, Eth1/1, [110/101], 00:03:53, ospf-UNDERLAY, intra
+10.0.102.1/32, ubest/mbest: 1/0
+    *via 10.2.2.3, Eth1/2, [110/101], 00:03:53, ospf-UNDERLAY, intra
+10.0.103.1/32, ubest/mbest: 1/0
+    *via 10.2.2.5, Eth1/3, [110/101], 00:03:48, ospf-UNDERLAY, intra
+10.2.1.0/31, ubest/mbest: 1/0
+    *via 10.2.2.1, Eth1/1, [110/200], 00:03:53, ospf-UNDERLAY, intra
+10.2.1.2/31, ubest/mbest: 1/0
+    *via 10.2.2.3, Eth1/2, [110/200], 00:03:53, ospf-UNDERLAY, intra
+10.2.1.4/31, ubest/mbest: 1/0
+    *via 10.2.2.5, Eth1/3, [110/200], 00:03:48, ospf-UNDERLAY, intra
+```
+
+## LEAF-01
+```text
+LEAF-01# sh ip ospf neighbors
+ OSPF Process ID UNDERLAY VRF default
+ Total number of neighbors: 2
+ Neighbor ID     Pri State            Up Time  Address         Interface
+ 10.0.1.1          1 FULL/ -          00:06:22 10.2.1.0        Eth1/1
+ 10.0.2.1          1 FULL/ -          00:04:41 10.2.2.0        Eth1/2
+
+LEAF-01# sh ip route ospf-UNDERLAY
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+10.0.1.1/32, ubest/mbest: 1/0
+    *via 10.2.1.0, Eth1/1, [110/101], 00:06:55, ospf-UNDERLAY, intra
+10.0.2.1/32, ubest/mbest: 1/0
+    *via 10.2.2.0, Eth1/2, [110/101], 00:05:18, ospf-UNDERLAY, intra
+10.0.102.1/32, ubest/mbest: 2/0
+    *via 10.2.1.0, Eth1/1, [110/201], 00:06:05, ospf-UNDERLAY, intra
+    *via 10.2.2.0, Eth1/2, [110/201], 00:05:15, ospf-UNDERLAY, intra
+10.0.103.1/32, ubest/mbest: 2/0
+    *via 10.2.1.0, Eth1/1, [110/201], 00:05:58, ospf-UNDERLAY, intra
+    *via 10.2.2.0, Eth1/2, [110/201], 00:05:10, ospf-UNDERLAY, intra
+10.2.1.2/31, ubest/mbest: 1/0
+    *via 10.2.1.0, Eth1/1, [110/200], 00:06:17, ospf-UNDERLAY, intra
+10.2.1.4/31, ubest/mbest: 1/0
+    *via 10.2.1.0, Eth1/1, [110/200], 00:06:11, ospf-UNDERLAY, intra
+10.2.2.2/31, ubest/mbest: 1/0
+    *via 10.2.2.0, Eth1/2, [110/200], 00:05:18, ospf-UNDERLAY, intra
+10.2.2.4/31, ubest/mbest: 1/0
+    *via 10.2.2.0, Eth1/2, [110/200], 00:05:16, ospf-UNDERLAY, intra
+```
+
+## LEAF-02
+```text
+LEAF-02# sh ip ospf neighbors
+ OSPF Process ID UNDERLAY VRF default
+ Total number of neighbors: 2
+ Neighbor ID     Pri State            Up Time  Address         Interface
+ 10.0.1.1          1 FULL/ -          00:07:25 10.2.1.2        Eth1/1
+ 10.0.2.1          1 FULL/ -          00:06:29 10.2.2.2        Eth1/2
+
+LEAF-02# sh ip route ospf-UNDERLAY
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+10.0.1.1/32, ubest/mbest: 1/0
+    *via 10.2.1.2, Eth1/1, [110/101], 00:07:33, ospf-UNDERLAY, intra
+10.0.2.1/32, ubest/mbest: 1/0
+    *via 10.2.2.2, Eth1/2, [110/101], 00:06:42, ospf-UNDERLAY, intra
+10.0.101.1/32, ubest/mbest: 2/0
+    *via 10.2.1.2, Eth1/1, [110/201], 00:07:33, ospf-UNDERLAY, intra
+    *via 10.2.2.2, Eth1/2, [110/201], 00:06:42, ospf-UNDERLAY, intra
+10.0.103.1/32, ubest/mbest: 2/0
+    *via 10.2.1.2, Eth1/1, [110/201], 00:07:25, ospf-UNDERLAY, intra
+    *via 10.2.2.2, Eth1/2, [110/201], 00:06:37, ospf-UNDERLAY, intra
+10.2.1.0/31, ubest/mbest: 1/0
+    *via 10.2.1.2, Eth1/1, [110/200], 00:07:33, ospf-UNDERLAY, intra
+10.2.1.4/31, ubest/mbest: 1/0
+    *via 10.2.1.2, Eth1/1, [110/200], 00:07:33, ospf-UNDERLAY, intra
+10.2.2.0/31, ubest/mbest: 1/0
+    *via 10.2.2.2, Eth1/2, [110/200], 00:06:42, ospf-UNDERLAY, intra
+10.2.2.4/31, ubest/mbest: 1/0
+    *via 10.2.2.2, Eth1/2, [110/200], 00:06:42, ospf-UNDERLAY, intra
+```
+## LEAF-03
+```text
+LEAF-03# sh ip ospf neighbors
+ OSPF Process ID UNDERLAY VRF default
+ Total number of neighbors: 2
+ Neighbor ID     Pri State            Up Time  Address         Interface
+ 10.0.1.1          1 FULL/ -          00:07:55 10.2.1.4        Eth1/1
+ 10.0.2.1          1 FULL/ -          00:07:01 10.2.2.4        Eth1/2
+
+LEAF-03# sh ip route ospf-UNDERLAY
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+10.0.1.1/32, ubest/mbest: 1/0
+    *via 10.2.1.4, Eth1/1, [110/101], 00:08:09, ospf-UNDERLAY, intra
+10.0.2.1/32, ubest/mbest: 1/0
+    *via 10.2.2.4, Eth1/2, [110/101], 00:07:20, ospf-UNDERLAY, intra
+10.0.101.1/32, ubest/mbest: 2/0
+    *via 10.2.1.4, Eth1/1, [110/201], 00:08:09, ospf-UNDERLAY, intra
+    *via 10.2.2.4, Eth1/2, [110/201], 00:07:20, ospf-UNDERLAY, intra
+10.0.102.1/32, ubest/mbest: 2/0
+    *via 10.2.1.4, Eth1/1, [110/201], 00:08:09, ospf-UNDERLAY, intra
+    *via 10.2.2.4, Eth1/2, [110/201], 00:07:20, ospf-UNDERLAY, intra
+10.2.1.0/31, ubest/mbest: 1/0
+    *via 10.2.1.4, Eth1/1, [110/200], 00:08:09, ospf-UNDERLAY, intra
+10.2.1.2/31, ubest/mbest: 1/0
+    *via 10.2.1.4, Eth1/1, [110/200], 00:08:09, ospf-UNDERLAY, intra
+10.2.2.0/31, ubest/mbest: 1/0
+    *via 10.2.2.4, Eth1/2, [110/200], 00:07:20, ospf-UNDERLAY, intra
+10.2.2.2/31, ubest/mbest: 1/0
+    *via 10.2.2.4, Eth1/2, [110/200], 00:07:20, ospf-UNDERLAY, intra
+
+```
+----
+
