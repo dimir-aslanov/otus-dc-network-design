@@ -17,7 +17,7 @@ feature bfd
 system jumbomtu 9216
 
 interface loopback0
-  description Router-ID_and_Management
+  description Router-ID
   ip address 10.0.1.1/32
   ip router ospf UNDERLAY area 0.0.0.0
   no shutdown
