@@ -126,11 +126,11 @@ router isis UNDERLAY
   is-type level-1
   log-adjacency-changes
   bfd
-  metric-style wide
+  authentication-type md5 level-1
+  authentication key-chain ISIS-KEYS level-1
   address-family ipv4 unicast
-  passive-interface loopback0
-  authentication-type md5
-  authentication key-chain ISIS-KEYS
+    bfd
+  passive-interface default level-1-2
 
 end
 copy running-config startup-config
