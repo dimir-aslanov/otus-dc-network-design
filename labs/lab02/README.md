@@ -34,6 +34,7 @@ interface Ethernet1/1
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
   ip ospf authentication key-chain OSPF-KEYS
+  no ip ospf passive-interface
   no bfd echo
   no shutdown
 
@@ -47,6 +48,7 @@ interface Ethernet1/2
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
   ip ospf authentication key-chain OSPF-KEYS
+  no ip ospf passive-interface
   no bfd echo
   no shutdown
 
@@ -59,6 +61,7 @@ interface Ethernet1/3
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
   ip ospf authentication key-chain OSPF-KEYS
+  no ip ospf passive-interface
   no bfd echo
   no shutdown
 
@@ -100,6 +103,7 @@ interface Ethernet1/1
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
   ip ospf authentication key-chain OSPF-KEYS
+  no ip ospf passive-interface
   no bfd echo
   no shutdown
 
@@ -112,6 +116,7 @@ interface Ethernet1/2
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
   ip ospf authentication key-chain OSPF-KEYS
+  no ip ospf passive-interface
   no bfd echo
   no shutdown
 
@@ -124,6 +129,7 @@ interface Ethernet1/3
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
   ip ospf authentication key-chain OSPF-KEYS
+  no ip ospf passive-interface
   no bfd echo
   no shutdown
 
@@ -170,6 +176,7 @@ interface Ethernet1/1
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
   ip ospf authentication key-chain OSPF-KEYS
+  no ip ospf passive-interface
   no bfd echo
   no shutdown
 
@@ -182,6 +189,7 @@ interface Ethernet1/2
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
   ip ospf authentication key-chain OSPF-KEYS
+  no ip ospf passive-interface
   no bfd echo
   no shutdown
 
@@ -228,6 +236,7 @@ interface Ethernet1/1
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
   ip ospf authentication key-chain OSPF-KEYS
+  no ip ospf passive-interface
   no bfd echo
   no shutdown
 
@@ -240,6 +249,7 @@ interface Ethernet1/2
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
   ip ospf authentication key-chain OSPF-KEYS
+  no ip ospf passive-interface
   no bfd echo
   no shutdown
 
@@ -286,6 +296,7 @@ interface Ethernet1/1
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
   ip ospf authentication key-chain OSPF-KEYS
+  no ip ospf passive-interface
   no bfd echo
   no shutdown
 
@@ -298,6 +309,7 @@ interface Ethernet1/2
   ip router ospf UNDERLAY area 0.0.0.0
   bfd interval 100 min_rx 100 multiplier 3
   ip ospf authentication key-chain OSPF-KEYS
+  no ip ospf passive-interface
   no bfd echo
   no shutdown
 
