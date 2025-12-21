@@ -4,7 +4,10 @@ Underlay. OSPF
 Настроить OSPF для Underlay сети.
 
 ---
+# Схема
+<img width="449" height="371" alt="image" src="https://github.com/user-attachments/assets/9125a61a-93fb-4a3c-a830-00f7c96b8eab" />
 
+---
 # Конфигурация OSPF
 
 ## SPINE-01
