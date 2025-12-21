@@ -196,7 +196,6 @@ router isis UNDERLAY
   authentication key-chain ISIS-KEYS level-1
   address-family ipv4 unicast
     bfd
-  passive-interface default level-1-2
 
 end
 copy running-config startup-config
