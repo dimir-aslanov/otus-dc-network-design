@@ -68,6 +68,7 @@ router ospf UNDERLAY
   auto-cost reference-bandwidth 100000
   bfd
   log-adjacency-changes detail
+
 end
 copy running-config startup-config
 ```
@@ -132,6 +133,7 @@ router ospf UNDERLAY
   auto-cost reference-bandwidth 100000
   bfd
   log-adjacency-changes detail
+
 end
 copy running-config startup-config
 ```
