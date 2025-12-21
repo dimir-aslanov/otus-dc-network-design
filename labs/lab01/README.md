@@ -56,31 +56,29 @@
 
 ## IP-план
 
-## SPINE-01
+### SPINE-01
 
 | Device   | Interface           | IP Address | Subnet Mask |
 |----------|---------------------|------------|-------------|
 | SPINE-01 | Lo0 (loopback1)     | 10.0.1.1   | /32 |
-| SPINE-01 | Lo1 (loopback2)     | 10.1.1.1   | /32 |
 | SPINE-01 | Eth1/1 → LEAF-01    | 10.2.1.0   | /31 |
 | SPINE-01 | Eth1/2 → LEAF-02    | 10.2.1.2   | /31 |
 | SPINE-01 | Eth1/3 → LEAF-03    | 10.2.1.4   | /31 |
 
 ---
 
-## SPINE-02
+### SPINE-02
 
 | Device   | Interface           | IP Address | Subnet Mask |
 |----------|---------------------|------------|-------------|
 | SPINE-02 | Lo0 (loopback1)     | 10.0.2.1   | /32 |
-| SPINE-02 | Lo1 (loopback2)     | 10.1.2.1   | /32 |
 | SPINE-02 | Eth1/1 → LEAF-01    | 10.2.2.0   | /31 |
 | SPINE-02 | Eth1/2 → LEAF-02    | 10.2.2.2   | /31 |
 | SPINE-02 | Eth1/3 → LEAF-03    | 10.2.2.4   | /31 |
 
 ---
 
-## LEAF-01
+### LEAF-01
 
 | Device  | Interface           | IP Address | Subnet Mask |
 |---------|---------------------|------------|-------------|
@@ -91,7 +89,7 @@
 
 ---
 
-## LEAF-02
+### LEAF-02
 
 | Device  | Interface           | IP Address | Subnet Mask |
 |---------|---------------------|------------|-------------|
@@ -102,7 +100,7 @@
 
 ---
 
-## LEAF-03
+### LEAF-03
 
 | Device  | Interface           | IP Address | Subnet Mask |
 |---------|---------------------|------------|-------------|
