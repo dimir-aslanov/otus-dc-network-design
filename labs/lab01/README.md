@@ -134,7 +134,7 @@ Lo0                  10.0.2.1        protocol-up/link-up/admin-up
 Eth1/1               10.2.2.0        protocol-up/link-up/admin-up
 Eth1/2               10.2.2.2        protocol-up/link-up/admin-up
 Eth1/3               10.2.2.4        protocol-up/link-up/admin-up
-
+```
 ```text
 LEAF-01# sh ip int brief
 
@@ -144,7 +144,7 @@ Lo0                  10.0.101.1      protocol-up/link-up/admin-up
 Lo1                  10.1.101.1      protocol-up/link-up/admin-up
 Eth1/1               10.2.1.1        protocol-up/link-up/admin-up
 Eth1/2               10.2.2.1        protocol-up/link-up/admin-up
-
+```
 ```text
 LEAF-02# sh ip int brief
 
@@ -154,7 +154,7 @@ Lo0                  10.0.102.1      protocol-up/link-up/admin-up
 Lo1                  10.1.102.1      protocol-up/link-up/admin-up
 Eth1/1               10.2.1.3        protocol-up/link-up/admin-up
 Eth1/2               10.2.2.3        protocol-up/link-up/admin-up
-
+```
 ```text
 LEAF-03# sh ip int brief
 
@@ -164,3 +164,4 @@ Lo0                  10.0.103.1      protocol-up/link-up/admin-up
 Lo1                  10.1.103.1      protocol-up/link-up/admin-up
 Eth1/1               10.2.1.5        protocol-up/link-up/admin-up
 Eth1/2               10.2.2.5        protocol-up/link-up/admin-up
+```
