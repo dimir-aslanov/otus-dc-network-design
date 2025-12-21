@@ -17,10 +17,7 @@
 
 ## Общий формат
 
-$$
-IP = 10.\langle Dn \rangle.\langle Host \rangle.\langle X \rangle
-$$
-
+`10.<Dn>.<Host>.<X>`
 
 ## Назначение октетов
 
@@ -29,8 +26,8 @@ $$
 
 | Dn | Назначение |
 |----|------------|
-| 0 | Loopback Underlay |
-| 1 | Loopback Overlay |
+| 0 | Loopback Underlay - Leaf and Spine |
+| 1 | Loopback Overlay - Leaf | 
 | 2 | P2P |
 | 3 | Reserved |
 | 4–7 | Services / VRF |
@@ -38,11 +35,13 @@ $$
 
 ### Host — идентификатор узла
 
+#### Для Loopback
 | Диапазон | Роль |
 |---------|------|
 | 1–99 | Spine |
-| 101–199 | Leaf |
+| 101–199 | Leaf | 
 | 200–220 | Border / Gateway |
+
 
 ## Правила адресации
 
