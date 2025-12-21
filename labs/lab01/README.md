@@ -50,7 +50,7 @@
 ## Правила адресации
 
 - Loopback интерфейсы — `/32`
-- P2P линковка — `/31`
+- P2P — `/31`
 - Spine — только underlay
 - Leaf — underlay + overlay (VTEP)
 
