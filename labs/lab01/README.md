@@ -8,6 +8,10 @@
 Собрать схему CLOS;  
 Распределить адресное пространство.
 
+# Целевая схема в EVE-NG
+
+<img width="458" height="371" alt="image" src="https://github.com/user-attachments/assets/2f1e5977-3b34-4255-9a15-458d3e623c31" />
+
 
 # Aдресное пространство
 
@@ -52,7 +56,5 @@
 
 ---
 
-## Примеры
 
-### Loopback Underlay
 
