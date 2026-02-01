@@ -27,46 +27,59 @@ interface loopback0
 
 interface Ethernet1/1
   no switchport
-  ip address 10.2.1.0/31
-  ip router isis UNDERLAY
-  isis circuit-type level-1
-  isis network point-to-point
-  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
+  no ip redirects
+  ip address 10.2.1.0/31
+  isis network point-to-point
+  isis circuit-type level-1
+  isis authentication-type md5
+  isis authentication key-chain ISIS-KEYS
+  ip router isis UNDERLAY
+  no isis passive-interface level-1
+  isis bfd disable - # не работает в лабе ISIS с включенным BFD  
   no shutdown
 
 interface Ethernet1/2
   no switchport
-  ip address 10.2.1.2/31
-  ip router isis UNDERLAY
-  isis circuit-type level-1
-  isis network point-to-point
-  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
+  no ip redirects
+  ip address 10.2.1.2/31
+  isis network point-to-point
+  isis circuit-type level-1
+  isis authentication-type md5
+  isis authentication key-chain ISIS-KEYS
+  ip router isis UNDERLAY
+  no isis passive-interface level-1
+  isis bfd disable - # не работает в лабе ISIS с включенным BFD  
   no shutdown
 
 interface Ethernet1/3
   no switchport
-  ip address 10.2.1.4/31
-  ip router isis UNDERLAY
-  isis circuit-type level-1
-  isis network point-to-point
   bfd interval 100 min_rx 100 multiplier 3
+  no bfd echo
+  no ip redirects
+  ip address 10.2.1.4/31
+  isis network point-to-point
+  isis circuit-type level-1
+  isis authentication-type md5
+  isis authentication key-chain ISIS-KEYS
+  ip router isis UNDERLAY
+  no isis passive-interface level-1
+  isis bfd disable - # не работает в лабе ISIS с включенным BFD  
   no bfd echo
   no shutdown
 
 router isis UNDERLAY
-  net 49.0001.0000.0001.00
+  net 49.0011.0000.0000.0001.00
   is-type level-1
   log-adjacency-changes
-  bfd
   authentication-type md5 level-1
   authentication key-chain ISIS-KEYS level-1
   address-family ipv4 unicast
     bfd
-  passive-interface default level-1-2
+  passive-interface default level-1
 
 end
 copy running-config startup-config
@@ -85,52 +98,63 @@ key chain ISIS-KEYS
 interface loopback0
   ip address 10.0.2.1/32
   ip router isis UNDERLAY
-  isis network point-to-point
   no shutdown
 
 interface Ethernet1/1
   no switchport
-  ip address 10.2.2.0/31
-  ip router isis UNDERLAY
-  isis circuit-type level-1
-  isis network point-to-point
-  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
+  no ip redirects
+  ip address 10.2.2.0/31
+  isis network point-to-point
+  isis circuit-type level-1
+  isis authentication-type md5
+  isis authentication key-chain ISIS-KEYS
+  ip router isis UNDERLAY
+  no isis passive-interface level-1
+  isis bfd disable - # не работает в лабе ISIS с включенным BFD  
   no shutdown
 
 interface Ethernet1/2
   no switchport
-  ip address 10.2.2.2/31
-  ip router isis UNDERLAY
-  isis circuit-type level-1
-  isis network point-to-point
-  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
+  no ip redirects
+  ip address 10.2.2.2/31
+  isis network point-to-point
+  isis circuit-type level-1
+  isis authentication-type md5
+  isis authentication key-chain ISIS-KEYS
+  ip router isis UNDERLAY
+  no isis passive-interface level-1
+  isis bfd disable - # не работает в лабе ISIS с включенным BFD  
   no shutdown
 
 interface Ethernet1/3
   no switchport
-  ip address 10.2.2.4/31
-  ip router isis UNDERLAY
-  isis circuit-type level-1
-  isis network point-to-point
-  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
+  no bfd echo
+  no ip redirects
+  ip address 10.2.2.4/31
+  isis network point-to-point
+  isis circuit-type level-1
+  isis authentication-type md5
+  isis authentication key-chain ISIS-KEYS
+  ip router isis UNDERLAY
+  no isis passive-interface level-1
+  isis bfd disable - # не работает в лабе ISIS с включенным BFD  
   no bfd echo
   no shutdown
 
 router isis UNDERLAY
-  net 49.0001.0000.0002.00
+  net 49.0011.0000.0000.0001.00
   is-type level-1
   log-adjacency-changes
-  bfd
   authentication-type md5 level-1
   authentication key-chain ISIS-KEYS level-1
   address-family ipv4 unicast
     bfd
-  passive-interface default level-1-2
+  passive-interface default level-1
 
 end
 copy running-config startup-config
@@ -156,37 +180,45 @@ interface loopback1
   ip address 10.1.101.1/32
   no shutdown
 
-interface Ethernet1/1
+nterface Ethernet1/1
   no switchport
-  ip address 10.2.1.1/31
-  ip router isis UNDERLAY
-  isis circuit-type level-1
-  isis network point-to-point
-  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
+  no ip redirects
+  ip address 10.2.1.1/31
+  isis network point-to-point
+  isis circuit-type level-1
+  isis authentication-type md5
+  isis authentication key-chain ISIS-KEYS
+  ip router isis UNDERLAY
+  no isis passive-interface level-1
+  isis bfd disable # не работает в лабе ISIS с включенным BFD  
   no shutdown
 
 interface Ethernet1/2
   no switchport
-  ip address 10.2.2.1/31
-  ip router isis UNDERLAY
-  isis circuit-type level-1
-  isis network point-to-point
-  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
+  no ip redirects
+  ip address 10.2.2.1/31
+  isis network point-to-point
+  isis circuit-type level-1
+  isis authentication-type md5
+  isis authentication key-chain ISIS-KEYS
+  ip router isis UNDERLAY
+  no isis passive-interface level-1
+  isis bfd disable # не работает в лабе ISIS с включенным BFD  
   no shutdown
 
 router isis UNDERLAY
-  net 49.0001.0000.0101.00
+  net 49.0011.0000.0000.0101.00
   is-type level-1
   log-adjacency-changes
-  bfd
   authentication-type md5 level-1
   authentication key-chain ISIS-KEYS level-1
   address-family ipv4 unicast
     bfd
+  passive-interface default level-1
 
 end
 copy running-config startup-config
@@ -212,38 +244,45 @@ interface loopback1
   ip address 10.1.102.1/32
   no shutdown
 
-interface Ethernet1/1
+nterface Ethernet1/1
   no switchport
-  ip address 10.2.1.3/31
-  ip router isis UNDERLAY
-  isis circuit-type level-1
-  isis network point-to-point
-  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
+  no ip redirects
+  ip address 10.2.1.3/31
+  isis network point-to-point
+  isis circuit-type level-1
+  isis authentication-type md5
+  isis authentication key-chain ISIS-KEYS
+  ip router isis UNDERLAY
+  no isis passive-interface level-1
+  isis bfd disable # не работает в лабе ISIS с включенным BFD  
   no shutdown
 
 interface Ethernet1/2
   no switchport
-  ip address 10.2.2.3/31
-  ip router isis UNDERLAY
-  isis circuit-type level-1
-  isis network point-to-point
-  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
+  no ip redirects
+  ip address 10.2.2.3/31
+  isis network point-to-point
+  isis circuit-type level-1
+  isis authentication-type md5
+  isis authentication key-chain ISIS-KEYS
+  ip router isis UNDERLAY
+  no isis passive-interface level-1
+  isis bfd disable # не работает в лабе ISIS с включенным BFD  
   no shutdown
 
 router isis UNDERLAY
-  net 49.0001.0000.0102.00
+  net 49.0011.0000.0000.0102.00
   is-type level-1
   log-adjacency-changes
-  bfd
   authentication-type md5 level-1
   authentication key-chain ISIS-KEYS level-1
   address-family ipv4 unicast
     bfd
-  passive-interface default level-1-2
+  passive-interface default level-1
 
 end
 copy running-config startup-config
@@ -269,38 +308,45 @@ interface loopback1
   ip address 10.1.103.1/32
   no shutdown
 
-interface Ethernet1/1
+nterface Ethernet1/1
   no switchport
-  ip address 10.2.1.5/31
-  ip router isis UNDERLAY
-  isis circuit-type level-1
-  isis network point-to-point
-  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
+  no ip redirects
+  ip address 10.2.1.5/31
+  isis network point-to-point
+  isis circuit-type level-1
+  isis authentication-type md5
+  isis authentication key-chain ISIS-KEYS
+  ip router isis UNDERLAY
+  no isis passive-interface level-1
+  isis bfd disable # не работает в лабе ISIS с включенным BFD  
   no shutdown
 
 interface Ethernet1/2
   no switchport
-  ip address 10.2.2.5/31
-  ip router isis UNDERLAY
-  isis circuit-type level-1
-  isis network point-to-point
-  no isis passive-interface level-1
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
+  no ip redirects
+  ip address 10.2.2.5/31
+  isis network point-to-point
+  isis circuit-type level-1
+  isis authentication-type md5
+  isis authentication key-chain ISIS-KEYS
+  ip router isis UNDERLAY
+  no isis passive-interface level-1
+  isis bfd disable # не работает в лабе ISIS с включенным BFD  
   no shutdown
 
 router isis UNDERLAY
-  net 49.0001.0000.0103.00
+  net 49.0011.0000.0000.0103.00
   is-type level-1
   log-adjacency-changes
-  bfd
   authentication-type md5 level-1
   authentication key-chain ISIS-KEYS level-1
   address-family ipv4 unicast
     bfd
-  passive-interface default level-1-2
+  passive-interface default level-1
 
 end
 copy running-config startup-config
