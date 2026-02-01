@@ -147,7 +147,7 @@ interface Ethernet1/3
   no shutdown
 
 router isis UNDERLAY
-  net 49.0011.0000.0000.0001.00
+  net 49.0011.0000.0000.0002.00
   is-type level-1
   log-adjacency-changes
   authentication-type md5 level-1
