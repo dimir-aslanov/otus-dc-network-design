@@ -352,6 +352,20 @@ end
 copy running-config startup-config
 ```
 ---
+# Что не получилось в лабе
+## Jumbo frame support - при включении сразу падает ISIS 
+```text
+configure terminal
+system jumbomtu 9216
+
+interface Ethernetx/x
+mtu 9216
+```
+## BFD ISIS - при включении сразу падает ISIS 
+
+```text
+```
+
 # Вывод CLI
 ## SPINE-01
 ```text
