@@ -173,7 +173,6 @@ key chain ISIS-KEYS
 interface loopback0
   ip address 10.0.101.1/32
   ip router isis UNDERLAY
-  isis network point-to-point
   no shutdown
 
 interface loopback1
@@ -237,7 +236,6 @@ key chain ISIS-KEYS
 interface loopback0
   ip address 10.0.102.1/32
   ip router isis UNDERLAY
-  isis network point-to-point
   no shutdown
 
 interface loopback1
@@ -353,32 +351,148 @@ copy running-config startup-config
 ```
 ---
 # Что не получилось в лабе
-## Jumbo frame support - при включении сразу падает ISIS 
-```text
-configure terminal
-system jumbomtu 9216
-
-interface Ethernetx/x
-mtu 9216
-```
-## BFD ISIS - при включении сразу падает ISIS 
-
-```text
-```
+### BFD ISIS - при включении сразу падает ISIS 
 
 # Вывод CLI
-## SPINE-01
-```text
-```
-## SPINE-02
-```text
+
 ```
 ## LEAF-01
 ```text
+LEAF-01(config-if)# sh isis adjacency
+IS-IS process: UNDERLAY VRF: default
+IS-IS adjacency database:
+Legend: '!': No AF level connectivity in given topology
+System ID       SNPA            Level  State  Hold Time  Interface
+SPINE-01        N/A             1      UP     00:00:27   Ethernet1/1
+SPINE-02        N/A             1      UP     00:00:29   Ethernet1/2
+
+LEAF-01(config-if)# sh isis database l1
+IS-IS Process: UNDERLAY LSP database VRF: default
+IS-IS Level-1 Link State Database
+  LSPID                 Seq Number   Checksum  Lifetime   A/P/O/T
+  SPINE-01.00-00        0x00000043   0xCEDE    1065       0/0/0/1
+  SPINE-02.00-00        0x00000032   0x4B13    1080       0/0/0/1
+  LEAF-01.00-00       * 0x0000002A   0x58C8    743        0/0/0/1
+  LEAF-02.00-00         0x0000002D   0x393E    1005       0/0/0/1
+  LEAF-03.00-00         0x0000002B   0x8B1D    1086       0/0/0/1
+
+LEAF-01(config-if)# sh ip route isis-UNDERLAY
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+10.0.1.1/32, ubest/mbest: 1/0
+    *via 10.2.1.0, Eth1/1, [115/41], 00:22:07, isis-UNDERLAY, L1
+10.0.2.1/32, ubest/mbest: 1/0
+    *via 10.2.2.0, Eth1/2, [115/41], 00:07:49, isis-UNDERLAY, L1
+10.0.102.1/32, ubest/mbest: 2/0
+    *via 10.2.1.0, Eth1/1, [115/81], 00:03:49, isis-UNDERLAY, L1
+    *via 10.2.2.0, Eth1/2, [115/81], 00:03:25, isis-UNDERLAY, L1
+10.0.103.1/32, ubest/mbest: 2/0
+    *via 10.2.1.0, Eth1/1, [115/81], 00:02:26, isis-UNDERLAY, L1
+    *via 10.2.2.0, Eth1/2, [115/81], 00:01:59, isis-UNDERLAY, L1
+10.2.1.2/31, ubest/mbest: 1/0
+    *via 10.2.1.0, Eth1/1, [115/80], 00:05:59, isis-UNDERLAY, L1
+10.2.1.4/31, ubest/mbest: 1/0
+    *via 10.2.1.0, Eth1/1, [115/80], 00:05:40, isis-UNDERLAY, L1
+10.2.2.2/31, ubest/mbest: 1/0
+    *via 10.2.2.0, Eth1/2, [115/80], 00:07:39, isis-UNDERLAY, L1
+10.2.2.4/31, ubest/mbest: 1/0
+    *via 10.2.2.0, Eth1/2, [115/80], 00:07:49, isis-UNDERLAY, L1
 ```
 ## LEAF-02
 ```text
+LEAF-02(config-if)# sh isis adjacency
+IS-IS process: UNDERLAY VRF: default
+IS-IS adjacency database:
+Legend: '!': No AF level connectivity in given topology
+System ID       SNPA            Level  State  Hold Time  Interface
+SPINE-01        N/A             1      UP     00:00:30   Ethernet1/1
+SPINE-02        N/A             1      UP     00:00:24   Ethernet1/2
+
+LEAF-02(config-if)# sh isis database l1
+IS-IS Process: UNDERLAY LSP database VRF: default
+IS-IS Level-1 Link State Database
+  LSPID                 Seq Number   Checksum  Lifetime   A/P/O/T
+  SPINE-01.00-00        0x00000043   0xCEDE    924        0/0/0/1
+  SPINE-02.00-00        0x00000032   0x4B13    939        0/0/0/1
+  LEAF-01.00-00         0x0000002B   0x722E    1171       0/0/0/1
+  LEAF-02.00-00       * 0x0000002D   0x393E    866        0/0/0/1
+  LEAF-03.00-00         0x0000002B   0x8B1D    944        0/0/0/1
+
+LEAF-02(config-if)# sh ip route isis-UNDERLAY
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+10.0.1.1/32, ubest/mbest: 1/0
+    *via 10.2.1.2, Eth1/1, [115/41], 00:06:31, isis-UNDERLAY, L1
+10.0.2.1/32, ubest/mbest: 1/0
+    *via 10.2.2.2, Eth1/2, [115/41], 00:06:08, isis-UNDERLAY, L1
+10.0.101.1/32, ubest/mbest: 2/0
+    *via 10.2.1.2, Eth1/1, [115/81], 00:06:31, isis-UNDERLAY, L1
+    *via 10.2.2.2, Eth1/2, [115/81], 00:06:08, isis-UNDERLAY, L1
+10.0.103.1/32, ubest/mbest: 2/0
+    *via 10.2.1.2, Eth1/1, [115/81], 00:05:08, isis-UNDERLAY, L1
+    *via 10.2.2.2, Eth1/2, [115/81], 00:04:40, isis-UNDERLAY, L1
+10.2.1.0/31, ubest/mbest: 1/0
+    *via 10.2.1.2, Eth1/1, [115/80], 00:06:31, isis-UNDERLAY, L1
+10.2.1.4/31, ubest/mbest: 1/0
+    *via 10.2.1.2, Eth1/1, [115/80], 00:06:31, isis-UNDERLAY, L1
+10.2.2.0/31, ubest/mbest: 1/0
+    *via 10.2.2.2, Eth1/2, [115/80], 00:06:08, isis-UNDERLAY, L1
+10.2.2.4/31, ubest/mbest: 1/0
+    *via 10.2.2.2, Eth1/2, [115/80], 00:06:08, isis-UNDERLAY, L1
+
 ```
 ## LEAF-03
 ```text
+EAF-03(config-if)# sh isis adjacency
+IS-IS process: UNDERLAY VRF: default
+IS-IS adjacency database:
+Legend: '!': No AF level connectivity in given topology
+System ID       SNPA            Level  State  Hold Time  Interface
+SPINE-01        N/A             1      UP     00:00:25   Ethernet1/1
+SPINE-02        N/A             1      UP     00:00:30   Ethernet1/2
+
+LEAF-03(config-if)# sh isis database L1
+IS-IS Process: UNDERLAY LSP database VRF: default
+IS-IS Level-1 Link State Database
+  LSPID                 Seq Number   Checksum  Lifetime   A/P/O/T
+  SPINE-01.00-00        0x00000043   0xCEDE    1132       0/0/0/1
+  SPINE-02.00-00        0x00000032   0x4B13    1147       0/0/0/1
+  LEAF-01.00-00         0x0000002A   0x58C8    808        0/0/0/1
+  LEAF-02.00-00         0x0000002D   0x393E    1072       0/0/0/1
+  LEAF-03.00-00       * 0x0000002B   0x8B1D    1154       0/0/0/1
+
+LEAF-03(config-if)# sh ip route isis-UNDERLAY
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+10.0.1.1/32, ubest/mbest: 1/0
+    *via 10.2.1.4, Eth1/1, [115/41], 00:01:24, isis-UNDERLAY, L1
+10.0.2.1/32, ubest/mbest: 1/0
+    *via 10.2.2.4, Eth1/2, [115/41], 00:01:08, isis-UNDERLAY, L1
+10.0.101.1/32, ubest/mbest: 2/0
+    *via 10.2.1.4, Eth1/1, [115/81], 00:01:24, isis-UNDERLAY, L1
+    *via 10.2.2.4, Eth1/2, [115/81], 00:01:08, isis-UNDERLAY, L1
+10.0.102.1/32, ubest/mbest: 2/0
+    *via 10.2.1.4, Eth1/1, [115/81], 00:01:24, isis-UNDERLAY, L1
+    *via 10.2.2.4, Eth1/2, [115/81], 00:01:08, isis-UNDERLAY, L1
+10.2.1.0/31, ubest/mbest: 1/0
+    *via 10.2.1.4, Eth1/1, [115/80], 00:01:24, isis-UNDERLAY, L1
+10.2.1.2/31, ubest/mbest: 1/0
+    *via 10.2.1.4, Eth1/1, [115/80], 00:01:24, isis-UNDERLAY, L1
+10.2.2.0/31, ubest/mbest: 1/0
+    *via 10.2.2.4, Eth1/2, [115/80], 00:01:08, isis-UNDERLAY, L1
+10.2.2.2/31, ubest/mbest: 1/0
+    *via 10.2.2.4, Eth1/2, [115/80], 00:01:08, isis-UNDERLAY, L1
+
 ```
