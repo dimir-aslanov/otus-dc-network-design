@@ -14,6 +14,7 @@ Underlay. IS-IS
 configure terminal
 feature isis
 feature bfd
+system jumbomtu 9216
 
 key chain ISIS-KEYS
   key 1
@@ -26,6 +27,8 @@ interface loopback0
   no shutdown
 
 interface Ethernet1/1
+  mtu 9216
+  no isis hello-padding always
   no switchport
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
@@ -41,6 +44,8 @@ interface Ethernet1/1
   no shutdown
 
 interface Ethernet1/2
+  mtu 9216
+  no isis hello-padding always
   no switchport
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
@@ -56,6 +61,8 @@ interface Ethernet1/2
   no shutdown
 
 interface Ethernet1/3
+  mtu 9216
+  no isis hello-padding always
   no switchport
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
@@ -89,6 +96,7 @@ copy running-config startup-config
 configure terminal
 feature isis
 feature bfd
+system jumbomtu 9216
 
 key chain ISIS-KEYS
   key 1
@@ -101,6 +109,8 @@ interface loopback0
   no shutdown
 
 interface Ethernet1/1
+  mtu 9216
+  no isis hello-padding always
   no switchport
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
@@ -116,6 +126,8 @@ interface Ethernet1/1
   no shutdown
 
 interface Ethernet1/2
+  mtu 9216
+  no isis hello-padding always
   no switchport
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
@@ -131,6 +143,8 @@ interface Ethernet1/2
   no shutdown
 
 interface Ethernet1/3
+  mtu 9216
+  no isis hello-padding always
   no switchport
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
@@ -164,6 +178,7 @@ copy running-config startup-config
 configure terminal
 feature isis
 feature bfd
+system jumbomtu 9216
 
 key chain ISIS-KEYS
   key 1
@@ -180,6 +195,8 @@ interface loopback1
   no shutdown
 
 nterface Ethernet1/1
+  mtu 9216
+  no isis hello-padding always
   no switchport
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
@@ -195,6 +212,8 @@ nterface Ethernet1/1
   no shutdown
 
 interface Ethernet1/2
+  mtu 9216
+  no isis hello-padding always
   no switchport
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
@@ -227,6 +246,7 @@ copy running-config startup-config
 configure terminal
 feature isis
 feature bfd
+system jumbomtu 9216
 
 key chain ISIS-KEYS
   key 1
@@ -243,6 +263,8 @@ interface loopback1
   no shutdown
 
 nterface Ethernet1/1
+  mtu 9216
+  no isis hello-padding always
   no switchport
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
@@ -258,6 +280,8 @@ nterface Ethernet1/1
   no shutdown
 
 interface Ethernet1/2
+  mtu 9216
+  no isis hello-padding always
   no switchport
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
@@ -290,6 +314,7 @@ copy running-config startup-config
 configure terminal
 feature isis
 feature bfd
+system jumbomtu 9216
 
 key chain ISIS-KEYS
   key 1
@@ -307,6 +332,8 @@ interface loopback1
   no shutdown
 
 nterface Ethernet1/1
+  mtu 9216
+  no isis hello-padding always
   no switchport
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
@@ -322,6 +349,8 @@ nterface Ethernet1/1
   no shutdown
 
 interface Ethernet1/2
+  mtu 9216
+  no isis hello-padding always
   no switchport
   bfd interval 100 min_rx 100 multiplier 3
   no bfd echo
