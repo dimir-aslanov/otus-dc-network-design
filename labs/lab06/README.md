@@ -6,11 +6,9 @@ VxLAN. L3VNI
 ---
 # Схема
 
-
+<img width="566" height="356" alt="image" src="https://github.com/user-attachments/assets/c36150c9-82ad-4efd-8e93-15b971a83d2e" />
 
 ---
-
-
 
 # Конфигурация eBGP EVPN VxLAN
 ## SPINE-01
