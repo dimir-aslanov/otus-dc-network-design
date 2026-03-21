@@ -18,47 +18,47 @@ feature nv overlay
 nv overlay evpn
 feature bgp
 
-route-map EVPN_NH_UNCHANGED permit
-set ip next-hop unchanged
+route-map EVPN_NH_UNCHANGED permit 10
+  set ip next-hop unchanged
 
 router bgp 65999
-router-id 10.0.1.1
-timers bgp 3 9
-reconnect-interval 10
-log-neighbor-changes
-address-family l2vpn evpn
-maximum-paths 10
-retain route-target all
+  router-id 10.0.1.1
+  timers bgp 3 9
+  reconnect-interval 10
+  log-neighbor-changes
+  address-family l2vpn evpn
+    maximum-paths 10
+    retain route-target all
 
-neighbor 10.0.101.1
-remote-as 65101
-update-source loopback0
-ebgp-multihop 5
-address-family l2vpn evpn
-send-community
-send-community extended
-rewrite-evpn-rt-asn
-route-map EVPN_NH_UNCHANGED out
+  neighbor 10.0.101.1
+    remote-as 65101
+    update-source loopback0
+    ebgp-multihop 5
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+      route-map EVPN_NH_UNCHANGED out
+      rewrite-evpn-rt-asn
 
-neighbor 10.0.102.1
-remote-as 65102
-update-source loopback0
-ebgp-multihop 5
-address-family l2vpn evpn
-send-community
-send-community extended
-rewrite-evpn-rt-asn
-route-map EVPN_NH_UNCHANGED out
+  neighbor 10.0.102.1
+    remote-as 65102
+    update-source loopback0
+    ebgp-multihop 5
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+      route-map EVPN_NH_UNCHANGED out
+      rewrite-evpn-rt-asn
 
-neighbor 10.0.103.1
-remote-as 65103
-update-source loopback0
-ebgp-multihop 5
-address-family l2vpn evpn
-send-community
-send-community extended
-rewrite-evpn-rt-asn
-route-map EVPN_NH_UNCHANGED out
+  neighbor 10.0.103.1
+    remote-as 65103
+    update-source loopback0
+    ebgp-multihop 5
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+      route-map EVPN_NH_UNCHANGED out
+      rewrite-evpn-rt-asn
 
 ```
 ## SPINE-02
@@ -69,47 +69,47 @@ feature nv overlay
 nv overlay evpn
 feature bgp
 
-route-map EVPN_NH_UNCHANGED permit
-set ip next-hop unchanged
+route-map EVPN_NH_UNCHANGED permit 10
+  set ip next-hop unchanged
 
 router bgp 65999
-router-id 10.0.2.1
-timers bgp 3 9
-reconnect-interval 10
-log-neighbor-changes
-address-family l2vpn evpn
-maximum-paths 10
-retain route-target all
+  router-id 10.0.2.1
+  timers bgp 3 9
+  reconnect-interval 10
+  log-neighbor-changes
+  address-family l2vpn evpn
+    maximum-paths 10
+    retain route-target all
 
-neighbor 10.0.101.1
-remote-as 65101
-update-source loopback0
-ebgp-multihop 5
-address-family l2vpn evpn
-send-community
-send-community extended
-rewrite-evpn-rt-asn
-route-map EVPN_NH_UNCHANGED out
+  neighbor 10.0.101.1
+    remote-as 65101
+    update-source loopback0
+    ebgp-multihop 5
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+      route-map EVPN_NH_UNCHANGED out
+      rewrite-evpn-rt-asn
 
-neighbor 10.0.102.1
-remote-as 65102
-update-source loopback0
-ebgp-multihop 5
-address-family l2vpn evpn
-send-community
-send-community extended
-rewrite-evpn-rt-asn
-route-map EVPN_NH_UNCHANGED out
+  neighbor 10.0.102.1
+    remote-as 65102
+    update-source loopback0
+    ebgp-multihop 5
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+      route-map EVPN_NH_UNCHANGED out
+      rewrite-evpn-rt-asn
 
-neighbor 10.0.103.1
-remote-as 65103
-update-source loopback0
-ebgp-multihop 5
-address-family l2vpn evpn
-send-community
-send-community extended
-rewrite-evpn-rt-asn
-route-map EVPN_NH_UNCHANGED out
+  neighbor 10.0.103.1
+    remote-as 65103
+    update-source loopback0
+    ebgp-multihop 5
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+      route-map EVPN_NH_UNCHANGED out
+      rewrite-evpn-rt-asn
 
 ```
 ## LEAF-01
