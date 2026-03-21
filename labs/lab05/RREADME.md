@@ -114,7 +114,6 @@ route-map EVPN_NH_UNCHANGED out
 ```
 ## LEAF-01
 ```text
-
 configure terminal
 
 feature vn-segment-vlan-based
@@ -123,47 +122,48 @@ nv overlay evpn
 feature bgp
 
 router bgp 65101
-router-id 10.0.101.1
-timers bgp 3 9
-bestpath as-path multipath-relax
-reconnect-interval 10
-log-neighbor-changes
-address-family l2vpn evpn
-maximum-paths 10
+  router-id 10.0.101.1
+  timers bgp 3 9
+  bestpath as-path multipath-relax
+  reconnect-interval 10
+  log-neighbor-changes
+  address-family l2vpn evpn
+    maximum-paths 10
 
-template peer SPINES
-remote-as 65999
-update-source loopback0
-ebgp-multihop 2
-timers 3 9
-address-family l2vpn evpn
-send-community
-send-community extended
-rewrite-evpn-rt-asn
+  template peer SPINES
+    remote-as 65999
+    update-source loopback0
+    ebgp-multihop 2
+    timers 3 9
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+      rewrite-evpn-rt-asn
 
-neighbor 10.0.1.1
-inherit peer SPINES
+  neighbor 10.0.1.1
+    inherit peer SPINES
 
-neighbor 10.0.2.1
-inherit peer SPINES
+  neighbor 10.0.2.1
+    inherit peer SPINES
+
 
 vlan 10
-name VLAN_10
-vn-segment 10010
+  name VLAN_10
+  vn-segment 10010
 
 evpn
-vni 10010 l2
-
-rd auto
-route-target import auto
-route-target export auto
+  vni 10010 l2
+    rd auto
+    route-target import auto
+    route-target export auto
 
 interface nve1
-no shutdown
-host-reachability protocol bgp
-source-interface loopback1
-member vni 10010
-ingress-replication protocol bgp
+  no shutdown
+  host-reachability protocol bgp
+  source-interface loopback1
+  member vni 10010
+    ingress-replication protocol bgp
+
 
 
 ```
@@ -178,47 +178,48 @@ nv overlay evpn
 feature bgp
 
 router bgp 65102
-router-id 10.0.102.1
-timers bgp 3 9
-bestpath as-path multipath-relax
-reconnect-interval 10
-log-neighbor-changes
-address-family l2vpn evpn
-maximum-paths 10
+  router-id 10.0.102.1
+  timers bgp 3 9
+  bestpath as-path multipath-relax
+  reconnect-interval 10
+  log-neighbor-changes
+  address-family l2vpn evpn
+    maximum-paths 10
 
-template peer SPINES
-remote-as 65999
-update-source loopback0
-ebgp-multihop 2
-timers 3 9
-address-family l2vpn evpn
-send-community
-send-community extended
-rewrite-evpn-rt-asn
+  template peer SPINES
+    remote-as 65999
+    update-source loopback0
+    ebgp-multihop 2
+    timers 3 9
+    address-family l2vpn evpn
+      send-community
+      send-community extended
+      rewrite-evpn-rt-asn
 
-neighbor 10.0.1.1
-inherit peer SPINES
+  neighbor 10.0.1.1
+    inherit peer SPINES
 
-neighbor 10.0.2.1
-inherit peer SPINES
+  neighbor 10.0.2.1
+    inherit peer SPINES
+
 
 vlan 10
-name VLAN_10
-vn-segment 10010
+  name VLAN_10
+  vn-segment 10010
 
 evpn
-vni 10010 l2
-
-rd auto
-route-target import auto
-route-target export auto
+  vni 10010 l2
+    rd auto
+    route-target import auto
+    route-target export auto
 
 interface nve1
-no shutdown
-host-reachability protocol bgp
-source-interface loopback1
-member vni 10010
-ingress-replication protocol bgp
+  no shutdown
+  host-reachability protocol bgp
+  source-interface loopback1
+  member vni 10010
+    ingress-replication protocol bgp
+
 
 
 ```
