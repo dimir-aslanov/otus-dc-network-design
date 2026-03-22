@@ -6,7 +6,7 @@ VxLAN. L3VNI
 ---
 # Схема
 
-<img width="566" height="356" alt="image" src="https://github.com/user-attachments/assets/c36150c9-82ad-4efd-8e93-15b971a83d2e" />
+<img width="601" height="361" alt="image" src="https://github.com/user-attachments/assets/76cbde99-d197-4416-a650-d83f1f2554f6" />
 
 ---
 
@@ -43,10 +43,9 @@ VxLAN. L3VNI
 | LEAF-01 | Lo1 (loopback2)     | 10.1.101.1 | /32 |
 | LEAF-01 | Eth1/1 → SPINE-01   | 10.2.1.1   | /31 |
 | LEAF-01 | Eth1/2 → SPINE-02   | 10.2.2.1   | /31 |
-| LEAF-01 | VLAN10              | 172.25.80.5| /24 |
-| LEAF-01 | VLAN20              | 172.25.81.5| /24 |
-| LEAF-01 | VLAN30              | 172.25.82.5| /24 |
-| LEAF-01 | VLAN40              | 172.25.83.5| /24 |
+| LEAF-01 | VLAN10              | 172.25.81.1| /24 |
+| LEAF-01 | VLAN20              | 172.25.82.1| /24 |
+
 
 ---
 
@@ -58,10 +57,9 @@ VxLAN. L3VNI
 | LEAF-02 | Lo1 (loopback2)     | 10.1.102.1 | /32 |
 | LEAF-02 | Eth1/1 → SPINE-01   | 10.2.1.3   | /31 |
 | LEAF-02 | Eth1/2 → SPINE-02   | 10.2.2.3   | /31 |
-| LEAF-02 | VLAN10              | 172.25.80.5| /24 |
-| LEAF-02 | VLAN20              | 172.25.81.5| /24 |
-| LEAF-02 | VLAN30              | 172.25.82.5| /24 |
-| LEAF-02 | VLAN40              | 172.25.83.5| /24 |
+| LEAF-02 | VLAN10              | 172.25.81.1| /24 |
+| LEAF-02 | VLAN20              | 172.25.82.1| /24 |
+
 
 ---
 
@@ -73,10 +71,9 @@ VxLAN. L3VNI
 | LEAF-03 | Lo1 (loopback2)     | 10.1.103.1 | /32 |
 | LEAF-03 | Eth1/1 → SPINE-01   | 10.2.1.5   | /31 |
 | LEAF-03 | Eth1/2 → SPINE-02   | 10.2.2.5   | /31 |
-| LEAF-03 | VLAN10              | 172.25.80.5| /24 |
-| LEAF-03 | VLAN20              | 172.25.81.5| /24 |
-| LEAF-03 | VLAN30              | 172.25.82.5| /24 |
-| LEAF-03 | VLAN40              | 172.25.83.5| /24 |
+| LEAF-03 | VLAN10              | 172.25.85.1| /24 |
+| LEAF-03 | VLAN20              | 172.25.85.1| /24 |
+
 
 ---
 
