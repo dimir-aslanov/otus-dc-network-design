@@ -11,6 +11,7 @@ Underlay. IS-IS
 # Конфигурация IS=IS
 ## SPINE-01
 ```text
+
 configure terminal
 feature isis
 feature bfd
