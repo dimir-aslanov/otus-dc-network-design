@@ -1,4 +1,4 @@
-<img width="151" height="46" alt="image" src="https://github.com/user-attachments/assets/c31f7928-7abd-4ec6-9f93-22129caf4eaf" /><img width="601" height="361" alt="image" src="https://github.com/user-attachments/assets/104b412e-4ff5-4cef-9484-c14a134a869f" /># Домашнее задание
+# Домашнее задание
 VxLAN. L3VNI
 ## Цель:
 Настроить маршрутизацию в рамках Overlay между клиентами.
