@@ -1,4 +1,4 @@
-# Домашнее задание
+<img width="151" height="46" alt="image" src="https://github.com/user-attachments/assets/c31f7928-7abd-4ec6-9f93-22129caf4eaf" /><img width="601" height="361" alt="image" src="https://github.com/user-attachments/assets/104b412e-4ff5-4cef-9484-c14a134a869f" /># Домашнее задание
 VxLAN. L3VNI
 ## Цель:
 Настроить маршрутизацию в рамках Overlay между клиентами.
@@ -71,158 +71,61 @@ VxLAN. L3VNI
 | LEAF-03 | Lo1 (loopback2)     | 10.1.103.1 | /32 |
 | LEAF-03 | Eth1/1 → SPINE-01   | 10.2.1.5   | /31 |
 | LEAF-03 | Eth1/2 → SPINE-02   | 10.2.2.5   | /31 |
-| LEAF-03 | VLAN10              | 172.25.85.1| /24 |
-| LEAF-03 | VLAN20              | 172.25.85.1| /24 |
+| LEAF-03 | VLAN10              | 172.25.81.1| /24 |
+| LEAF-03 | VLAN20              | 172.25.82.1| /24 |
 
 
 ---
 
 
 # Конфигурация eBGP EVPN VxLAN
-## SPINE-01
-```text
-configure terminal
 
-feature nv overlay
-nv overlay evpn
-feature bgp
-
-route-map EVPN_NH_UNCHANGED permit 10
-  set ip next-hop unchanged
-
-router bgp 65999
-  router-id 10.0.1.1
-  timers bgp 3 9
-  reconnect-interval 10
-  log-neighbor-changes
-  address-family l2vpn evpn
-    maximum-paths 10
-    retain route-target all
-
-  neighbor 10.0.101.1
-    remote-as 65101
-    update-source loopback0
-    ebgp-multihop 5
-    address-family l2vpn evpn
-      send-community
-      send-community extended
-      route-map EVPN_NH_UNCHANGED out
-      rewrite-evpn-rt-asn
-
-  neighbor 10.0.102.1
-    remote-as 65102
-    update-source loopback0
-    ebgp-multihop 5
-    address-family l2vpn evpn
-      send-community
-      send-community extended
-      route-map EVPN_NH_UNCHANGED out
-      rewrite-evpn-rt-asn
-
-  neighbor 10.0.103.1
-    remote-as 65103
-    update-source loopback0
-    ebgp-multihop 5
-    address-family l2vpn evpn
-      send-community
-      send-community extended
-      route-map EVPN_NH_UNCHANGED out
-      rewrite-evpn-rt-asn
-```
-## SPINE-02
-```text
-configure terminal
-
-feature nv overlay
-nv overlay evpn
-feature bgp
-
-route-map EVPN_NH_UNCHANGED permit 10
-  set ip next-hop unchanged
-
-router bgp 65999
-  router-id 10.0.2.1
-  timers bgp 3 9
-  reconnect-interval 10
-  log-neighbor-changes
-  address-family l2vpn evpn
-    maximum-paths 10
-    retain route-target all
-
-  neighbor 10.0.101.1
-    remote-as 65101
-    update-source loopback0
-    ebgp-multihop 5
-    address-family l2vpn evpn
-      send-community
-      send-community extended
-      route-map EVPN_NH_UNCHANGED out
-      rewrite-evpn-rt-asn
-
-  neighbor 10.0.102.1
-    remote-as 65102
-    update-source loopback0
-    ebgp-multihop 5
-    address-family l2vpn evpn
-      send-community
-      send-community extended
-      route-map EVPN_NH_UNCHANGED out
-      rewrite-evpn-rt-asn
-
-  neighbor 10.0.103.1
-    remote-as 65103
-    update-source loopback0
-    ebgp-multihop 5
-    address-family l2vpn evpn
-      send-community
-      send-community extended
-      route-map EVPN_NH_UNCHANGED out
-      rewrite-evpn-rt-asn
-```
 ## LEAF-01
 ```text
 configure terminal
 
+nv overlay evpn
+feature ospf
+feature bgp
+feature interface-vlan
 feature vn-segment-vlan-based
 feature nv overlay
-nv overlay evpn
-feature bgp
-
-router bgp 65101
-  router-id 10.0.101.1
-  timers bgp 3 9
-  bestpath as-path multipath-relax
-  reconnect-interval 10
-  log-neighbor-changes
-  address-family l2vpn evpn
-    maximum-paths 10
-
-  template peer SPINES
-    remote-as 65999
-    update-source loopback0
-    ebgp-multihop 2
-    timers 3 9
-    address-family l2vpn evpn
-      send-community
-      send-community extended
-      rewrite-evpn-rt-asn
-
-  neighbor 10.0.1.1
-    inherit peer SPINES
-
-  neighbor 10.0.2.1
-    inherit peer SPINES
-
 
 vlan 10
-  name VLAN_10
+  name VLAN10
   vn-segment 10010
+vlan 20
+  name VLAN20
+  vn-segment 10020
+vlan 999
+  name L3_VNI
+  vn-segment 10999
 
-evpn
-  vni 10010 l2
-    rd auto
-    route-target import auto
-    route-target export auto
+fabric forwarding anycast-gateway-mac 0000.0000.9999
+
+vrf context OTUS
+  vni 10999
+  rd auto
+  address-family ipv4 unicast
+    route-target both auto
+    route-target both auto evpn
+
+interface Vlan10
+  no shutdown
+  vrf member OTUS
+  ip address 172.25.81.1/24
+  fabric forwarding mode anycast-gateway
+
+interface Vlan20
+  no shutdown
+  vrf member OTUS
+  ip address 172.25.82.1/24
+  fabric forwarding mode anycast-gateway
+
+interface Vlan999
+  no shutdown
+  vrf member OTUS
+  ip forward
 
 interface nve1
   no shutdown
@@ -230,6 +133,29 @@ interface nve1
   source-interface loopback1
   member vni 10010
     ingress-replication protocol bgp
+    suppress-arp
+  member vni 10020
+    ingress-replication protocol bgp
+     suppress-arp
+  member vni 10999 associate-vrf
+
+interface Ethernet1/6
+  description VM-05
+  switchport access vlan 20
+
+interface Ethernet1/7
+  description VM-01
+  switchport access vlan 10
+
+evpn
+  vni 10010 l2
+    rd auto
+    route-target import auto
+    route-target export auto
+  vni 10020 l2
+    rd auto
+    route-target import auto
+    route-target export auto
 
 
 
@@ -239,45 +165,48 @@ interface nve1
 
 configure terminal
 
+nv overlay evpn
+feature ospf
+feature bgp
+feature interface-vlan
 feature vn-segment-vlan-based
 feature nv overlay
-nv overlay evpn
-feature bgp
-
-router bgp 65102
-  router-id 10.0.102.1
-  timers bgp 3 9
-  bestpath as-path multipath-relax
-  reconnect-interval 10
-  log-neighbor-changes
-  address-family l2vpn evpn
-    maximum-paths 10
-
-  template peer SPINES
-    remote-as 65999
-    update-source loopback0
-    ebgp-multihop 2
-    timers 3 9
-    address-family l2vpn evpn
-      send-community
-      send-community extended
-      rewrite-evpn-rt-asn
-
-  neighbor 10.0.1.1
-    inherit peer SPINES
-
-  neighbor 10.0.2.1
-    inherit peer SPINES
 
 vlan 10
-  name VLAN_10
+  name VLAN10
   vn-segment 10010
+vlan 20
+  name VLAN20
+  vn-segment 10020
+vlan 999
+  name L3_VNI
+  vn-segment 10999
 
-evpn
-  vni 10010 l2
-    rd auto
-    route-target import auto
-    route-target export auto
+fabric forwarding anycast-gateway-mac 0000.0000.9999
+
+vrf context OTUS
+  vni 10999
+  rd auto
+  address-family ipv4 unicast
+    route-target both auto
+    route-target both auto evpn
+
+interface Vlan10
+  no shutdown
+  vrf member OTUS
+  ip address 172.25.81.1/24
+  fabric forwarding mode anycast-gateway
+
+interface Vlan20
+  no shutdown
+  vrf member OTUS
+  ip address 172.25.82.1/24
+  fabric forwarding mode anycast-gateway
+
+interface Vlan999
+  no shutdown
+  vrf member OTUS
+  ip forward
 
 interface nve1
   no shutdown
@@ -285,6 +214,25 @@ interface nve1
   source-interface loopback1
   member vni 10010
     ingress-replication protocol bgp
+    suppress-arp
+  member vni 10020
+    ingress-replication protocol bgp
+     suppress-arp
+  member vni 10999 associate-vrf
+
+interface Ethernet1/7
+  description VM-02
+  switchport access vlan 20
+
+evpn
+  vni 10010 l2
+    rd auto
+    route-target import auto
+    route-target export auto
+  vni 10020 l2
+    rd auto
+    route-target import auto
+    route-target export auto
 
 ```
 ## LEAF-03
@@ -292,45 +240,48 @@ interface nve1
 
 configure terminal
 
+nv overlay evpn
+feature ospf
+feature bgp
+feature interface-vlan
 feature vn-segment-vlan-based
 feature nv overlay
-nv overlay evpn
-feature bgp
-
-router bgp 65103
-  router-id 10.0.103.1
-  timers bgp 3 9
-  bestpath as-path multipath-relax
-  reconnect-interval 10
-  log-neighbor-changes
-  address-family l2vpn evpn
-    maximum-paths 10
-
-  template peer SPINES
-    remote-as 65999
-    update-source loopback0
-    ebgp-multihop 2
-    timers 3 9
-    address-family l2vpn evpn
-      send-community
-      send-community extended
-      rewrite-evpn-rt-asn
-
-  neighbor 10.0.1.1
-    inherit peer SPINES
-
-  neighbor 10.0.2.1
-    inherit peer SPINES
 
 vlan 10
-  name VLAN_10
+  name VLAN10
   vn-segment 10010
+vlan 20
+  name VLAN20
+  vn-segment 10020
+vlan 999
+  name L3_VNI
+  vn-segment 10999
 
-evpn
-  vni 10010 l2
-    rd auto
-    route-target import auto
-    route-target export auto
+fabric forwarding anycast-gateway-mac 0000.0000.9999
+
+vrf context OTUS
+  vni 10999
+  rd auto
+  address-family ipv4 unicast
+    route-target both auto
+    route-target both auto evpn
+
+interface Vlan10
+  no shutdown
+  vrf member OTUS
+  ip address 172.25.81.1/24
+  fabric forwarding mode anycast-gateway
+
+interface Vlan20
+  no shutdown
+  vrf member OTUS
+  ip address 172.25.82.1/24
+  fabric forwarding mode anycast-gateway
+
+interface Vlan999
+  no shutdown
+  vrf member OTUS
+  ip forward
 
 interface nve1
   no shutdown
@@ -338,6 +289,30 @@ interface nve1
   source-interface loopback1
   member vni 10010
     ingress-replication protocol bgp
+    suppress-arp
+  member vni 10020
+    ingress-replication protocol bgp
+     suppress-arp
+  member vni 10999 associate-vrf
+
+interface Ethernet1/6
+  description VM-03
+  switchport access vlan 10
+
+interface Ethernet1/7
+  description VM-04
+  switchport access vlan 20
+
+evpn
+  vni 10010 l2
+    rd auto
+    route-target import auto
+    route-target export auto
+  vni 10020 l2
+    rd auto
+    route-target import auto
+    route-target export auto
+
 ```
 ---
 
@@ -347,29 +322,7 @@ interface nve1
 ## LEAF-01
 ```text
 
-LEAF-01(config)# show bgp l2vpn evpn summary
-BGP summary information for VRF default, address family L2VPN EVPN
-BGP router identifier 10.0.101.1, local AS number 65101
-BGP table version is 78, L2VPN EVPN config peers 2, capable peers 2
-12 network entries and 17 paths using 2928 bytes of memory
-BGP attribute entries [8/1376], BGP AS path entries [2/20]
-BGP community entries [0/0], BGP clusterlist entries [0/0]
-
-Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
-10.0.1.1        4 65999    1312    1298       78    0    0 01:04:45 5
-10.0.2.1        4 65999    1310    1298       78    0    0 01:04:45 5
-
-
-LEAF-01(config)# sh nve peers
-Interface Peer-IP                                 State LearnType Uptime   Route
-r-Mac
---------- --------------------------------------  ----- --------- -------- -----
-nve1      10.1.102.1                              Up    CP        01:01:23 n/a
-
-nve1      10.1.103.1                              Up    CP        01:01:57 n/a
-
-
-LEAF-01(config)# sh mac address-table
+LEAF-01(config-if)# sh mac address-table
 Legend:
         * - primary entry, G - Gateway MAC, (R) - Routed MAC, O - Overlay MAC
         age - seconds since last seen,+ - primary entry using vPC Peer-Link,
@@ -377,14 +330,30 @@ Legend:
    VLAN     MAC Address      Type      age     Secure NTFY Ports
 ---------+-----------------+--------+---------+------+----+------------------
 *   10     0050.7966.6806   dynamic  0         F      F    Eth1/7
-C   10     0050.7966.6807   dynamic  0         F      F    nve1(10.1.102.1)
 C   10     0050.7966.6808   dynamic  0         F      F    nve1(10.1.103.1)
-C   10     0050.7966.6809   dynamic  0         F      F    nve1(10.1.103.1)
+C   20     0050.7966.6807   dynamic  0         F      F    nve1(10.1.102.1)
+*   20     0050.7966.680b   dynamic  0         F      F    Eth1/6
+*  999     5001.0000.1b08   static   -         F      F    Vlan999
+*  999     5004.0000.1b08   static   -         F      F    nve1(10.1.103.1)
+*  999     5005.0000.1b08   static   -         F      F    nve1(10.1.102.1)
+G    -     0000.0000.9999   static   -         F      F    sup-eth1(R)
 G    -     5001.0000.1b08   static   -         F      F    sup-eth1(R)
 G   10     5001.0000.1b08   static   -         F      F    sup-eth1(R)
+G   20     5001.0000.1b08   static   -         F      F    sup-eth1(R)
+G  999     5001.0000.1b08   static   -         F      F    sup-eth1(R)
 
+
+LEAF-01(config-if)# sh nve peers
+Interface Peer-IP                                 State LearnType Uptime   Route
+r-Mac
+--------- --------------------------------------  ----- --------- -------- -----
+------------
+nve1      10.1.102.1                              Up    CP        14:02:47 5005.0000.1b08
+nve1      10.1.103.1                              Up    CP        14:02:47 5004.0000.1b08
 
 ```
+
+
 ## LEAF-02
 ```text
 LEAF-02(config)# sh bgp l2vpn evpn  summary
