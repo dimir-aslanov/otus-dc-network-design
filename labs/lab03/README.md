@@ -382,6 +382,10 @@ copy running-config startup-config
 # Что не получилось в лабе
 ### BFD ISIS - при включении сразу падает ISIS 
 
+Нашёл упоминание в документации что BFD не поддерживается.
+
+Bidirectional Forwarding Detection (BFD) is generally unsupported on the virtual Cisco Nexus 9000v (N9Kv) platform, including in EVE-NG simulation. Virtual TCAM/data plane lacks the required hardware acceleration
+
 # Вывод CLI
 
 ```
