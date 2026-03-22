@@ -472,18 +472,6 @@ VM-04> ping 172.25.80.6
 84 bytes from 172.25.80.6 icmp_seq=3 ttl=64 time=9.964 ms
 84 bytes from 172.25.80.6 icmp_seq=4 ttl=64 time=6.838 ms
 
-LEAF-01(config)# sh ip arp
-
-IP ARP Table for context default
-Total number of entries: 7
-Address         Age       MAC Address     Interface       Flags
-10.2.1.0        00:02:31  5003.0000.1b08  Ethernet1/1
-10.2.2.0        00:02:15  5002.0000.1b08  Ethernet1/2
-172.25.80.6     00:08:30  0050.7966.6806  Vlan10
-172.25.80.9     00:11:22  5005.0000.1b08  Vlan10
-172.25.80.10    00:08:30  0050.7966.6807  Vlan10
-172.25.80.11    00:08:30  0050.7966.6808  Vlan10
-172.25.80.12    00:08:30  0050.7966.6809  Vlan10
 
 ```
 
