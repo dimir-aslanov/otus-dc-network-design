@@ -142,7 +142,7 @@ interface port-channel10
 interface loopback1
   description VTEP_and_Services
   ip address 10.1.101.1/32
-  ip address 10.1.102.1/32 secondary
+  ip address 10.1.100.1/32 secondary
   ip router ospf UNDERLAY area 0.0.0.0
 
 
@@ -194,8 +194,8 @@ interface port-channel10
 
 interface loopback1
   description VTEP_and_Services
-  ip address 10.1.101.1/32
-  ip address 10.1.102.1/32 secondary
+  ip address 10.1.102.1/32
+  ip address 10.1.100.1/32 secondary
   ip router ospf UNDERLAY area 0.0.0.0
 
 
@@ -248,7 +248,7 @@ interface port-channel10
 interface loopback1
   description VTEP_and_Services
   ip address 10.1.103.1/32
-  ip address 10.1.104.1/32 secondary
+  ip address 10.1.100.3/32 secondary
   ip router ospf UNDERLAY area 0.0.0.0
 
 
@@ -300,8 +300,8 @@ interface port-channel10
 
 interface loopback1
   description VTEP_and_Services
-  ip address 10.1.103.1/32
-  ip address 10.1.104.1/32 secondary
+  ip address 10.1.104.1/32
+  ip address 10.1.100.3/32 secondary
   ip router ospf UNDERLAY area 0.0.0.0
 
 ```
