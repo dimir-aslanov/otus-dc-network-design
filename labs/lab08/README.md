@@ -77,8 +77,8 @@ VxLAN. Routing.
 | LEAF-03 | Eth1/2 → SPINE-02   | 10.2.2.5   | /31 |
 | LEAF-03 | VLAN10  (OTUS-VRF1)            | 172.25.81.1| /24 |
 | LEAF-03 | VLAN20   (OTUS-VRF2)           | 172.25.82.1| /24 |
-| LEAF-03 | VLAN777 (OTUS-VRF1)              | 172.25.99.1| /24 |
-| LEAF-03 | VLAN666 (OTUS-VRF2)              | 172.25.98.1| /24 |
+| LEAF-03 | VLAN777 (OTUS-VRF1)              | 172.25.99.1| /30 |
+| LEAF-03 | VLAN666 (OTUS-VRF2)              | 172.25.98.1| /30 |
 | LEAF-03 | MGMT                | 10.8.0.3   | /24 |
 
 
@@ -92,8 +92,8 @@ VxLAN. Routing.
 | LEAF-04 | Eth1/2 → SPINE-02   | 10.2.2.7   | /31 |
 | LEAF-04 | VLAN10 (OTUS-VRF1)              | 172.25.81.1| /24 |
 | LEAF-04 | VLAN20 (OTUS-VRF2)              | 172.25.82.1| /24 |
-| LEAF-04 | VLAN777 (OTUS-VRF1)              | 172.25.99.1| /24 |
-| LEAF-04 | VLAN666 (OTUS-VRF2)              | 172.25.98.1| /24 |
+| LEAF-04 | VLAN777 (OTUS-VRF1)              | 172.25.99.1| /30 |
+| LEAF-04 | VLAN666 (OTUS-VRF2)              | 172.25.98.1| /30 |
 | LEAF-04 | MGMT                | 10.8.0.4   | /24 |
 
 
@@ -101,23 +101,23 @@ VxLAN. Routing.
 
 | Device  | Interface           | IP Address | Subnet Mask |
 |---------|---------------------|------------|-------------|
-| HV-01 | VLAN10 (VRF VLAN-10)    | 172.25.81.5 | /32 |
-| HV-01 | VLAN20 (VRF VLAN-20)    | 172.25.82.5| /32 |
+| HV-01 | VLAN10 (VRF VLAN-10)    | 172.25.81.5 | /24 |
+| HV-01 | VLAN20 (VRF VLAN-20)    | 172.25.82.5| /24 |
 
 
 ### HV-02
 
 | Device  | Interface           | IP Address | Subnet Mask |
 |---------|---------------------|------------|-------------|
-| HV-01 | VLAN10 (VRF VLAN-10)    | 172.25.81.6 | /32 |
-| HV-01 | VLAN20 (VRF VLAN-20)    | 172.25.82.6| /32 |
+| HV-01 | VLAN10 (VRF VLAN-10)    | 172.25.81.6 | /24 |
+| HV-01 | VLAN20 (VRF VLAN-20)    | 172.25.82.6| /24 |
 
 ### FW-01
 
 | Device  | Interface           | IP Address | Subnet Mask |
 |---------|---------------------|------------|-------------|
-| FW-01 | VLAN666   | 172.25.98.2 | /32 |
-| FW-01 | VLAN777   | 172.25.99.2| /32 |
+| FW-01 | VLAN666   | 172.25.98.2 | /30 |
+| FW-01 | VLAN777   | 172.25.99.2| /30 |
 
 
 ---
