@@ -269,7 +269,7 @@ router bgp 65101
     inherit peer SPINES
   neighbor 10.0.2.1
     inherit peer SPINES
-
+```
 
 ## LEAF-02
 ```text
@@ -426,7 +426,7 @@ evpn
     rd auto
     route-target import auto
     route-target export auto
-
+```
 
 
 ## LEAF-03
