@@ -43,7 +43,7 @@ VXLAN. Multihoming
 | Device  | Interface           | IP Address | Subnet Mask |
 |---------|---------------------|------------|-------------|
 | LEAF-01 | Lo0 (loopback1)     | 10.0.101.1 | /32 |
-| LEAF-01 | Lo1 (loopback2)     | 10.1.101.1 | /32 |
+| LEAF-01 | Lo1 (loopback2)     | 10.1.101.1 (10.1.100.1) | /32 |
 | LEAF-01 | Eth1/1 → SPINE-01   | 10.2.1.1   | /31 |
 | LEAF-01 | Eth1/2 → SPINE-02   | 10.2.2.1   | /31 |
 | LEAF-01 | VLAN10              | 172.25.81.1| /24 |
@@ -58,7 +58,7 @@ VXLAN. Multihoming
 | Device  | Interface           | IP Address | Subnet Mask |
 |---------|---------------------|------------|-------------|
 | LEAF-02 | Lo0 (loopback1)     | 10.0.102.1 | /32 |
-| LEAF-02 | Lo1 (loopback2)     | 10.1.102.1 | /32 |
+| LEAF-02 | Lo1 (loopback2)     | 10.1.102.1 (10.1.100.1)| /32 |
 | LEAF-02 | Eth1/1 → SPINE-01   | 10.2.1.3   | /31 |
 | LEAF-02 | Eth1/2 → SPINE-02   | 10.2.2.3   | /31 |
 | LEAF-02 | VLAN10              | 172.25.81.1| /24 |
@@ -73,7 +73,7 @@ VXLAN. Multihoming
 | Device  | Interface           | IP Address | Subnet Mask |
 |---------|---------------------|------------|-------------|
 | LEAF-03 | Lo0 (loopback1)     | 10.0.103.1 | /32 |
-| LEAF-03 | Lo1 (loopback2)     | 10.1.103.1 | /32 |
+| LEAF-03 | Lo1 (loopback2)     | 10.1.103.1 (10.1.100.3) | /32 |
 | LEAF-03 | Eth1/1 → SPINE-01   | 10.2.1.5   | /31 |
 | LEAF-03 | Eth1/2 → SPINE-02   | 10.2.2.5   | /31 |
 | LEAF-03 | VLAN10              | 172.25.81.1| /24 |
@@ -86,7 +86,7 @@ VXLAN. Multihoming
 | Device  | Interface           | IP Address | Subnet Mask |
 |---------|---------------------|------------|-------------|
 | LEAF-04 | Lo0 (loopback1)     | 10.0.104.1 | /32 |
-| LEAF-04 | Lo1 (loopback2)     | 10.1.104.1 | /32 |
+| LEAF-04 | Lo1 (loopback2)     | 10.1.104.1 (10.1.100.3)| /32 |
 | LEAF-04 | Eth1/1 → SPINE-01   | 10.2.1.7   | /31 |
 | LEAF-04 | Eth1/2 → SPINE-02   | 10.2.2.7   | /31 |
 | LEAF-04 | VLAN10              | 172.25.81.1| /24 |
