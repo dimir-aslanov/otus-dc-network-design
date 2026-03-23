@@ -824,231 +824,281 @@ evpn
 
 # Вывод CLI
 
-```
+
 ## LEAF-01
 ```text
+LEAF-01# sh ip route vrf OTUS-VRF1
 
-LEAF-01(config-if)# sh vpc brief
-Legend:
-                (*) - local vPC is down, forwarding via vPC peer-link
+0.0.0.0/0, ubest/mbest: 1/0
+    *via 10.1.100.3%default, [20/0], 00:49:18, bgp-65101, external, tag 65999, s
+egid: 10999 tunnelid: 0xa016403 encap: VXLAN
 
-vPC domain id                     : 1
-Peer status                       : peer adjacency formed ok
-vPC keep-alive status             : peer is alive
-Configuration consistency status  : success
-Per-vlan consistency status       : success
-Type-2 consistency status         : success
-vPC role                          : primary
-Number of vPCs configured         : 1
-Peer Gateway                      : Disabled
-Dual-active excluded VLANs        : -
-Graceful Consistency Check        : Enabled
-Auto-recovery status              : Disabled
-Delay-restore status              : Timer is off.(timeout = 30s)
-Delay-restore SVI status          : Timer is off.(timeout = 10s)
-Operational Layer3 Peer-router    : Disabled
-Virtual-peerlink mode             : Disabled
+172.25.81.0/24, ubest/mbest: 1/0, attached
+    *via 172.25.81.1, Vlan10, [0/0], 1d02h, direct
+172.25.81.1/32, ubest/mbest: 1/0, attached
+    *via 172.25.81.1, Vlan10, [0/0], 1d02h, local
+172.25.81.5/32, ubest/mbest: 1/0, attached
+    *via 172.25.81.5, Vlan10, [190/0], 00:50:11, hmm
+172.25.81.6/32, ubest/mbest: 1/0
+    *via 10.1.100.3%default, [20/0], 00:49:18, bgp-65101, external, tag 65999, s
+egid: 10999 tunnelid: 0xa016403 encap: VXLAN
 
-vPC Peer-link status
----------------------------------------------------------------------
-id    Port   Status Active vlans
---    ----   ------ -------------------------------------------------
-1     Po1    up     10,20
+LEAF-01# sh ip route vrf OTUS-VRF2
+0.0.0.0/0, ubest/mbest: 1/0
+    *via 10.1.100.3%default, [20/0], 01:00:24, bgp-65101, external, tag 65999, s
+egid: 10888 tunnelid: 0xa016403 encap: VXLAN
 
-vPC status
-----------------------------------------------------------------------------
-Id    Port          Status Consistency Reason                Active vlans
---    ------------  ------ ----------- ------                ---------------
-10    Po10          up     success     success               10,20
+172.25.82.0/24, ubest/mbest: 1/0, attached
+    *via 172.25.82.1, Vlan20, [0/0], 1d03h, direct
+172.25.82.1/32, ubest/mbest: 1/0, attached
+    *via 172.25.82.1, Vlan20, [0/0], 1d03h, local
+172.25.82.5/32, ubest/mbest: 1/0, attached
+    *via 172.25.82.5, Vlan20, [190/0], 01:01:17, hmm
+172.25.82.6/32, ubest/mbest: 1/0
+    *via 10.1.100.3%default, [20/0], 01:00:24, bgp-65101, external, tag 65999, s
+egid: 10888 tunnelid: 0xa016403 encap: VXLAN
 
 
+LEAF-01# sh bgp l2vpn evpn route-type 5 vrf OTUS-VRF1
+Route Distinguisher: 10.0.101.1:3    (L3VNI 10999)
+BGP routing table entry for [5]:[0]:[0]:[0]:[0.0.0.0]/224, version 3049
+Paths: (2 available, best #2)
+Flags: (0x000002) (high32 00000000) on xmit-list, is not in l2rib/evpn, is not i
+n HW
+Multipath: eBGP
 
-LEAF-01(config-if)# sh port-channel summary
-Flags:  D - Down        P - Up in port-channel (members)
-        I - Individual  H - Hot-standby (LACP only)
-        s - Suspended   r - Module-removed
-        b - BFD Session Wait
-        S - Switched    R - Routed
-        U - Up (port-channel)
-        p - Up in delay-lacp mode (member)
-        M - Not in use. Min-links not met
---------------------------------------------------------------------------------
-Group Port-       Type     Protocol  Member Ports
-      Channel
---------------------------------------------------------------------------------
-1     Po1(SU)     Eth      LACP      Eth1/3(P)    Eth1/4(P)
-10    Po10(SU)    Eth      LACP      Eth1/6(P)
+  Path type: external, path is valid, not best reason: newer EBGP path, no label
+ed nexthop
+             Imported from 10.0.104.1:3:[5]:[0]:[0]:[0]:[0.0.0.0]/224
+  Gateway IP: 0.0.0.0
+  AS-Path: 65999 65104 , path sourced external to AS
+    10.1.100.3 (metric 201) from 10.0.2.1 (10.0.2.1)
+      Origin IGP, MED not set, localpref 100, weight 0
+      Received label 10999
+      Extcommunity: RT:65101:10999 ENCAP:8 Router MAC:5007.0000.1b08
+
+  Advertised path-id 1
+  Path type: external, path is valid, is best path, no labeled nexthop
+             Imported from 10.0.103.1:3:[5]:[0]:[0]:[0]:[0.0.0.0]/224
+  Gateway IP: 0.0.0.0
+  AS-Path: 65999 65103 , path sourced external to AS
+    10.1.100.3 (metric 201) from 10.0.2.1 (10.0.2.1)
+      Origin IGP, MED not set, localpref 100, weight 0
+      Received label 10999
+      Extcommunity: RT:65101:10999 ENCAP:8 Router MAC:5004.0000.1b08
+
+  Path-id 1 not advertised to any peer
+
+LEAF-01# sh bgp l2vpn evpn route-type 5 vrf OTUS-VRF2
+Route Distinguisher: 10.0.101.1:4    (L3VNI 10888)
+BGP routing table entry for [5]:[0]:[0]:[0]:[0.0.0.0]/224, version 3048
+Paths: (2 available, best #2)
+Flags: (0x000002) (high32 00000000) on xmit-list, is not in l2rib/evpn, is not i
+n HW
+Multipath: eBGP
+
+  Path type: external, path is valid, not best reason: newer EBGP path, no label
+ed nexthop
+             Imported from 10.0.104.1:4:[5]:[0]:[0]:[0]:[0.0.0.0]/224
+  Gateway IP: 0.0.0.0
+  AS-Path: 65999 65104 , path sourced external to AS
+    10.1.100.3 (metric 201) from 10.0.2.1 (10.0.2.1)
+      Origin IGP, MED not set, localpref 100, weight 0
+      Received label 10888
+      Extcommunity: RT:65101:10888 ENCAP:8 Router MAC:5007.0000.1b08
+
+  Advertised path-id 1
+  Path type: external, path is valid, is best path, no labeled nexthop
+             Imported from 10.0.103.1:4:[5]:[0]:[0]:[0]:[0.0.0.0]/224
+  Gateway IP: 0.0.0.0
+  AS-Path: 65999 65103 , path sourced external to AS
+    10.1.100.3 (metric 201) from 10.0.2.1 (10.0.2.1)
+      Origin IGP, MED not set, localpref 100, weight 0
+      Received label 10888
+      Extcommunity: RT:65101:10888 ENCAP:8 Router MAC:5004.0000.1b08
+
+  Path-id 1 not advertised to any peer
+
 
 ```
-
 
 ## LEAF-02
 ```text
-LEAF-02(config-if)# sh vpc brief
-Legend:
-                (*) - local vPC is down, forwarding via vPC peer-link
+LEAF-02(config-if)# sh ip route vrf OTUS-VRF1
+0.0.0.0/0, ubest/mbest: 1/0
+    *via 10.1.100.3%default, [20/0], 00:56:52, bgp-65102, external, tag 65999, s
+egid: 10999 tunnelid: 0xa016403 encap: VXLAN
 
-vPC domain id                     : 1
-Peer status                       : peer adjacency formed ok
-vPC keep-alive status             : peer is alive
-Configuration consistency status  : success
-Per-vlan consistency status       : success
-Type-2 consistency status         : success
-vPC role                          : secondary
-Number of vPCs configured         : 1
-Peer Gateway                      : Disabled
-Dual-active excluded VLANs        : -
-Graceful Consistency Check        : Enabled
-Auto-recovery status              : Disabled
-Delay-restore status              : Timer is off.(timeout = 30s)
-Delay-restore SVI status          : Timer is off.(timeout = 10s)
-Operational Layer3 Peer-router    : Disabled
-Virtual-peerlink mode             : Disabled
-
-vPC Peer-link status
----------------------------------------------------------------------
-id    Port   Status Active vlans
---    ----   ------ -------------------------------------------------
-1     Po1    up     10,20
+172.25.81.0/24, ubest/mbest: 1/0, attached
+    *via 172.25.81.1, Vlan10, [0/0], 01:01:03, direct
+172.25.81.1/32, ubest/mbest: 1/0, attached
+    *via 172.25.81.1, Vlan10, [0/0], 01:01:03, local
+172.25.81.5/32, ubest/mbest: 1/0, attached
+    *via 172.25.81.5, Vlan10, [190/0], 00:57:13, hmm (no-redist)
+172.25.81.6/32, ubest/mbest: 1/0
+    *via 10.1.100.3%default, [20/0], 00:57:05, bgp-65102, external, tag 65999, s
+egid: 10999 tunnelid: 0xa016403 encap: VXLAN
 
 
-vPC status
-----------------------------------------------------------------------------
-Id    Port          Status Consistency Reason                Active vlans
---    ------------  ------ ----------- ------                ---------------
-10    Po10          up     success     success               10,20
+LEAF-02(config-if)# sh ip route vrf OTUS-VRF2
+0.0.0.0/0, ubest/mbest: 1/0
+    *via 10.1.100.3%default, [20/0], 00:58:35, bgp-65102, external, tag 65999, s
+egid: 10888 tunnelid: 0xa016403 encap: VXLAN
+
+172.25.82.0/24, ubest/mbest: 1/0, attached
+    *via 172.25.82.1, Vlan20, [0/0], 01:02:46, direct
+172.25.82.1/32, ubest/mbest: 1/0, attached
+    *via 172.25.82.1, Vlan20, [0/0], 01:02:46, local
+172.25.82.5/32, ubest/mbest: 1/0, attached
+    *via 172.25.82.5, Vlan20, [190/0], 00:58:56, hmm (no-redist)
+172.25.82.6/32, ubest/mbest: 1/0
+    *via 10.1.100.3%default, [20/0], 00:58:48, bgp-65102, external, tag 65999, s
+egid: 10888 tunnelid: 0xa016403 encap: VXLAN
 
 
-LEAF-02(config-if)# sh port-channel summary
-Flags:  D - Down        P - Up in port-channel (members)
-        I - Individual  H - Hot-standby (LACP only)
-        s - Suspended   r - Module-removed
-        b - BFD Session Wait
-        S - Switched    R - Routed
-        U - Up (port-channel)
-        p - Up in delay-lacp mode (member)
-        M - Not in use. Min-links not met
---------------------------------------------------------------------------------
-Group Port-       Type     Protocol  Member Ports
-      Channel
---------------------------------------------------------------------------------
-1     Po1(SU)     Eth      LACP      Eth1/3(P)    Eth1/4(P)
-10    Po10(SU)    Eth      LACP      Eth1/6(P)
-LEAF-02(config-if)#
+LEAF-02(config-if)# sh bgp l2vpn evpn route-type 5 vrf OTUS-VRF1
+Route Distinguisher: 10.0.102.1:3    (L3VNI 10999)
+BGP routing table entry for [5]:[0]:[0]:[0]:[0.0.0.0]/224, version 626
+Paths: (2 available, best #1)
+Flags: (0x000002) (high32 00000000) on xmit-list, is not in l2rib/evpn, is not i
+n HW
+Multipath: eBGP
+
+  Advertised path-id 1
+  Path type: external, path is valid, is best path, no labeled nexthop
+             Imported from 10.0.104.1:3:[5]:[0]:[0]:[0]:[0.0.0.0]/224
+  Gateway IP: 0.0.0.0
+  AS-Path: 65999 65104 , path sourced external to AS
+    10.1.100.3 (metric 201) from 10.0.2.1 (10.0.2.1)
+      Origin IGP, MED not set, localpref 100, weight 0
+      Received label 10999
+      Extcommunity: RT:65102:10999 ENCAP:8 Router MAC:5007.0000.1b08
+
+  Path type: external, path is valid, not best reason: Neighbor Address, no labe
+led nexthop
+             Imported from 10.0.103.1:3:[5]:[0]:[0]:[0]:[0.0.0.0]/224
+  Gateway IP: 0.0.0.0
+  AS-Path: 65999 65103 , path sourced external to AS
+    10.1.100.3 (metric 201) from 10.0.2.1 (10.0.2.1)
+      Origin IGP, MED not set, localpref 100, weight 0
+      Received label 10999
+      Extcommunity: RT:65102:10999 ENCAP:8 Router MAC:5004.0000.1b08
+
+  Path-id 1 not advertised to any peer
+
+LEAF-02(config-if)# sh bgp l2vpn evpn route-type 5 vrf OTUS-VRF2
+Route Distinguisher: 10.0.102.1:4    (L3VNI 10888)
+BGP routing table entry for [5]:[0]:[0]:[0]:[0.0.0.0]/224, version 627
+Paths: (2 available, best #1)
+Flags: (0x000002) (high32 00000000) on xmit-list, is not in l2rib/evpn, is not i
+n HW
+Multipath: eBGP
+
+  Advertised path-id 1
+  Path type: external, path is valid, is best path, no labeled nexthop
+             Imported from 10.0.104.1:4:[5]:[0]:[0]:[0]:[0.0.0.0]/224
+  Gateway IP: 0.0.0.0
+  AS-Path: 65999 65104 , path sourced external to AS
+    10.1.100.3 (metric 201) from 10.0.2.1 (10.0.2.1)
+      Origin IGP, MED not set, localpref 100, weight 0
+      Received label 10888
+      Extcommunity: RT:65102:10888 ENCAP:8 Router MAC:5007.0000.1b08
+
+  Path type: external, path is valid, not best reason: Neighbor Address, no labe
+led nexthop
+             Imported from 10.0.103.1:4:[5]:[0]:[0]:[0]:[0.0.0.0]/224
+  Gateway IP: 0.0.0.0
+  AS-Path: 65999 65103 , path sourced external to AS
+    10.1.100.3 (metric 201) from 10.0.2.1 (10.0.2.1)
+      Origin IGP, MED not set, localpref 100, weight 0
+      Received label 10888
+      Extcommunity: RT:65102:10888 ENCAP:8 Router MAC:5004.0000.1b08
+
+  Path-id 1 not advertised to any peer
 
 
 ```
 
 ## LEAF-03
 ```text
+LEAF-03(config-if)# sh ip route vrf OTUS-VRF1
+0.0.0.0/0, ubest/mbest: 1/0
+    *via 172.25.99.2, [1/0], 01:24:04, static
+172.25.81.0/24, ubest/mbest: 1/0, attached
+    *via 172.25.81.1, Vlan10, [0/0], 22:25:58, direct
+172.25.81.1/32, ubest/mbest: 1/0, attached
+    *via 172.25.81.1, Vlan10, [0/0], 22:25:58, local
+172.25.81.5/32, ubest/mbest: 1/0
+    *via 10.1.100.1%default, [20/0], 01:00:50, bgp-65103, external, tag 65999, s
+egid: 10999 tunnelid: 0xa016401 encap: VXLAN
 
-LEAF-03(config-if)# sh vpc brief
-Legend:
-                (*) - local vPC is down, forwarding via vPC peer-link
+172.25.81.6/32, ubest/mbest: 1/0, attached
+    *via 172.25.81.6, Vlan10, [190/0], 01:01:16, hmm
+172.25.99.0/30, ubest/mbest: 1/0, attached
+    *via 172.25.99.1, Vlan777, [0/0], 01:24:51, direct
+172.25.99.1/32, ubest/mbest: 1/0, attached
+    *via 172.25.99.1, Vlan777, [0/0], 01:24:51, local
 
-vPC domain id                     : 1
-Peer status                       : peer adjacency formed ok
-vPC keep-alive status             : peer is alive
-Configuration consistency status  : success
-Per-vlan consistency status       : success
-Type-2 consistency status         : success
-vPC role                          : primary
-Number of vPCs configured         : 1
-Peer Gateway                      : Disabled
-Dual-active excluded VLANs        : -
-Graceful Consistency Check        : Enabled
-Auto-recovery status              : Disabled
-Delay-restore status              : Timer is off.(timeout = 30s)
-Delay-restore SVI status          : Timer is off.(timeout = 10s)
-Operational Layer3 Peer-router    : Disabled
-Virtual-peerlink mode             : Disabled
+LEAF-03(config-if)# sh ip route vrf OTUS-VRF2
+0.0.0.0/0, ubest/mbest: 1/0
+    *via 172.25.98.2, [1/0], 01:24:39, static
+172.25.82.0/24, ubest/mbest: 1/0, attached
+    *via 172.25.82.1, Vlan20, [0/0], 22:26:33, direct
+172.25.82.1/32, ubest/mbest: 1/0, attached
+    *via 172.25.82.1, Vlan20, [0/0], 22:26:33, local
+172.25.82.5/32, ubest/mbest: 1/0
+    *via 10.1.100.1%default, [20/0], 01:01:25, bgp-65103, external, tag 65999, s
+egid: 10888 tunnelid: 0xa016401 encap: VXLAN
 
-vPC Peer-link status
----------------------------------------------------------------------
-id    Port   Status Active vlans
---    ----   ------ -------------------------------------------------
-1     Po1    up     10,20
+172.25.82.6/32, ubest/mbest: 1/0, attached
+    *via 172.25.82.6, Vlan20, [190/0], 01:01:51, hmm
+172.25.98.0/30, ubest/mbest: 1/0, attached
+    *via 172.25.98.1, Vlan666, [0/0], 01:25:26, direct
+172.25.98.1/32, ubest/mbest: 1/0, attached
+    *via 172.25.98.1, Vlan666, [0/0], 01:25:26, local
 
-
-vPC status
-----------------------------------------------------------------------------
-Id    Port          Status Consistency Reason                Active vlans
---    ------------  ------ ----------- ------                ---------------
-10    Po10          up     success     success               10,20
-
-
-LEAF-03(config-if)# sh port-channel summary
-Flags:  D - Down        P - Up in port-channel (members)
-        I - Individual  H - Hot-standby (LACP only)
-        s - Suspended   r - Module-removed
-        b - BFD Session Wait
-        S - Switched    R - Routed
-        U - Up (port-channel)
-        p - Up in delay-lacp mode (member)
-        M - Not in use. Min-links not met
---------------------------------------------------------------------------------
-Group Port-       Type     Protocol  Member Ports
-      Channel
---------------------------------------------------------------------------------
-1     Po1(SU)     Eth      LACP      Eth1/3(P)    Eth1/4(P)
-10    Po10(SU)    Eth      LACP      Eth1/6(P)
 
 ```
-
 
 ## LEAF-04
 ```text
 
-LEAF-04(config-if)# sh vpc  brief
-Legend:
-                (*) - local vPC is down, forwarding via vPC peer-link
+LEAF-04(config-if)# sh ip route vrf OTUS-VRF1
+0.0.0.0/0, ubest/mbest: 1/0
+    *via 172.25.99.2, [1/0], 01:25:42, static
+172.25.81.0/24, ubest/mbest: 1/0, attached
+    *via 172.25.81.1, Vlan10, [0/0], 01:26:20, direct
+172.25.81.1/32, ubest/mbest: 1/0, attached
+    *via 172.25.81.1, Vlan10, [0/0], 01:26:20, local
+172.25.81.5/32, ubest/mbest: 1/0
+    *via 10.1.100.1%default, [20/0], 01:02:36, bgp-65104, external, tag 65999, s
+egid: 10999 tunnelid: 0xa016401 encap: VXLAN
 
-vPC domain id                     : 1
-Peer status                       : peer adjacency formed ok
-vPC keep-alive status             : peer is alive
-Configuration consistency status  : success
-Per-vlan consistency status       : success
-Type-2 consistency status         : success
-vPC role                          : secondary
-Number of vPCs configured         : 1
-Peer Gateway                      : Disabled
-Dual-active excluded VLANs        : -
-Graceful Consistency Check        : Enabled
-Auto-recovery status              : Disabled
-Delay-restore status              : Timer is off.(timeout = 30s)
-Delay-restore SVI status          : Timer is off.(timeout = 10s)
-Operational Layer3 Peer-router    : Disabled
-Virtual-peerlink mode             : Disabled
-
-vPC Peer-link status
----------------------------------------------------------------------
-id    Port   Status Active vlans
---    ----   ------ -------------------------------------------------
-1     Po1    up     10,20
+172.25.81.6/32, ubest/mbest: 1/0, attached
+    *via 172.25.81.6, Vlan10, [190/0], 01:02:54, hmm
+172.25.99.0/30, ubest/mbest: 1/0, attached
+    *via 172.25.99.1, Vlan777, [0/0], 01:26:20, direct
+172.25.99.1/32, ubest/mbest: 1/0, attached
+    *via 172.25.99.1, Vlan777, [0/0], 01:26:20, local
 
 
-vPC status
-----------------------------------------------------------------------------
-Id    Port          Status Consistency Reason                Active vlans
---    ------------  ------ ----------- ------                ---------------
-10    Po10          up     success     success               10,20
+LEAF-04(config-if)# sh ip route vrf OTUS-VRF2
+0.0.0.0/0, ubest/mbest: 1/0
+    *via 172.25.98.2, [1/0], 01:25:10, static
+172.25.82.0/24, ubest/mbest: 1/0, attached
+    *via 172.25.82.1, Vlan20, [0/0], 01:25:48, direct
+172.25.82.1/32, ubest/mbest: 1/0, attached
+    *via 172.25.82.1, Vlan20, [0/0], 01:25:48, local
+172.25.82.5/32, ubest/mbest: 1/0
+    *via 10.1.100.1%default, [20/0], 01:02:04, bgp-65104, external, tag 65999, s
+egid: 10888 tunnelid: 0xa016401 encap: VXLAN
 
-
-LEAF-04(config-if)# sh port-channel summary
-Flags:  D - Down        P - Up in port-channel (members)
-        I - Individual  H - Hot-standby (LACP only)
-        s - Suspended   r - Module-removed
-        b - BFD Session Wait
-        S - Switched    R - Routed
-        U - Up (port-channel)
-        p - Up in delay-lacp mode (member)
-        M - Not in use. Min-links not met
---------------------------------------------------------------------------------
-Group Port-       Type     Protocol  Member Ports
-      Channel
---------------------------------------------------------------------------------
-1     Po1(SU)     Eth      LACP      Eth1/3(P)    Eth1/4(P)
-10    Po10(SU)    Eth      LACP      Eth1/6(P)
+172.25.82.6/32, ubest/mbest: 1/0, attached
+    *via 172.25.82.6, Vlan20, [190/0], 01:02:22, hmm
+172.25.98.0/30, ubest/mbest: 1/0, attached
+    *via 172.25.98.1, Vlan666, [0/0], 01:25:48, direct
+172.25.98.1/32, ubest/mbest: 1/0, attached
+    *via 172.25.98.1, Vlan666, [0/0], 01:25:48, local
 
 
 ```
@@ -1066,33 +1116,74 @@ IP Interface Status for VRF "VLAN-20"(4)
 Interface            IP Address      Interface Status
 Vlan20               172.25.82.5     protocol-up/link-up/admin-up
 
-HV-01# ping 172.25.81.6 vrf vLAN-10
-PING 172.25.81.6 (172.25.81.6): 56 data bytes
-36 bytes from 172.25.81.5: Destination Host Unreachable
-Request 0 timed out
-64 bytes from 172.25.81.6: icmp_seq=1 ttl=254 time=15.515 ms
-64 bytes from 172.25.81.6: icmp_seq=2 ttl=254 time=10.607 ms
-64 bytes from 172.25.81.6: icmp_seq=3 ttl=254 time=13.146 ms
 
-HV-01# ping 172.25.82.6 vrf vLAN-20
+HV-01# ping 172.25.82.6 vrf VLAN-10
 PING 172.25.82.6 (172.25.82.6): 56 data bytes
-64 bytes from 172.25.82.6: icmp_seq=0 ttl=254 time=17.959 ms
-64 bytes from 172.25.82.6: icmp_seq=1 ttl=254 time=14.832 ms
-64 bytes from 172.25.82.6: icmp_seq=2 ttl=254 time=10.832 ms
+64 bytes from 172.25.82.6: icmp_seq=0 ttl=250 time=17.724 ms
+64 bytes from 172.25.82.6: icmp_seq=1 ttl=250 time=16.429 ms
+64 bytes from 172.25.82.6: icmp_seq=2 ttl=250 time=24.292 ms
 
-HV-01# sh port-channel summary
-Flags:  D - Down        P - Up in port-channel (members)
-        I - Individual  H - Hot-standby (LACP only)
-        s - Suspended   r - Module-removed
-        b - BFD Session Wait
-        S - Switched    R - Routed
-        U - Up (port-channel)
-        p - Up in delay-lacp mode (member)
-        M - Not in use. Min-links not met
---------------------------------------------------------------------------------
-Group Port-       Type     Protocol  Member Ports
-      Channel
---------------------------------------------------------------------------------
-1     Po1(SU)     Eth      LACP      Eth1/1(P)    Eth1/2(P)
+HV-01# traceroute 172.25.82.6 vrf VLAN-10
+traceroute to 172.25.82.6 (172.25.82.6), 30 hops max, 40 byte packets
+ 1  172.25.81.1 (172.25.81.1)  3.401 ms  3.122 ms  2.236 ms
+ 2  172.25.81.1 (172.25.81.1)  9.843 ms  8.446 ms  7.82 ms
+ 3  172.25.99.2 (172.25.99.2)  12.769 ms  14.524 ms  12.855 ms
+ 4  172.25.98.1 (172.25.98.1)  23.518 ms  16.106 ms  16.05 ms
+ 5  172.25.82.6 (172.25.82.6)  18.068 ms  18.701 ms  18.479 ms
 
+HV-01# ping 172.25.81.6 vrf VLAN-20
+PING 172.25.81.6 (172.25.81.6): 56 data bytes
+64 bytes from 172.25.81.6: icmp_seq=0 ttl=250 time=21.9 ms
+64 bytes from 172.25.81.6: icmp_seq=1 ttl=250 time=19.947 ms
+64 bytes from 172.25.81.6: icmp_seq=2 ttl=250 time=16.453 ms
+
+HV-01# traceroute 172.25.81.6 vrf VLAN-20
+traceroute to 172.25.81.6 (172.25.81.6), 30 hops max, 40 byte packets
+ 1  172.25.82.1 (172.25.82.1)  3.228 ms  2.63 ms  2.649 ms
+ 2  172.25.82.1 (172.25.82.1)  9.017 ms  10.639 ms  9.995 ms
+ 3  172.25.98.2 (172.25.98.2)  11.613 ms  10.288 ms  10.692 ms
+ 4  172.25.99.1 (172.25.99.1)  11.869 ms  13.05 ms  11.953 ms
+ 5  172.25.81.6 (172.25.81.6)  15.833 ms  17.102 ms  15.556 ms
+
+```
+
+## HV-02
+```text
+HV-02# show ip int brief vrf all
+
+IP Interface Status for VRF "VLAN-10"(3)
+Interface            IP Address      Interface Status
+Vlan10               172.25.81.6     protocol-up/link-up/admin-up
+
+IP Interface Status for VRF "VLAN-20"(4)
+Interface            IP Address      Interface Status
+Vlan20               172.25.82.6     protocol-up/link-up/admin-up
+
+HV-02# ping 172.25.82.5 vrf VLAN-10
+PING 172.25.82.5 (172.25.82.5): 56 data bytes
+64 bytes from 172.25.82.5: icmp_seq=0 ttl=250 time=15.628 ms
+64 bytes from 172.25.82.5: icmp_seq=1 ttl=250 time=16.526 ms
+64 bytes from 172.25.82.5: icmp_seq=2 ttl=250 time=14.527 ms
+
+HV-02# traceroute 172.25.82.5 vrf VLAN-10
+traceroute to 172.25.82.5 (172.25.82.5), 30 hops max, 40 byte packets
+ 1  172.25.81.1 (172.25.81.1)  3.1 ms  3.02 ms  1.923 ms
+ 2  172.25.99.2 (172.25.99.2)  5.641 ms  4.55 ms  4.13 ms
+ 3  172.25.98.1 (172.25.98.1)  5.541 ms  5.826 ms  5.456 ms
+ 4  172.25.82.1 (172.25.82.1)  14.587 ms  16.142 ms  12.959 ms
+ 5  172.25.82.5 (172.25.82.5)  13.343 ms  15.131 ms  15.518 ms
+
+HV-02# ping 172.25.81.5 vrf VLAN-20
+PING 172.25.81.5 (172.25.81.5): 56 data bytes
+64 bytes from 172.25.81.5: icmp_seq=0 ttl=250 time=22.762 ms
+64 bytes from 172.25.81.5: icmp_seq=1 ttl=250 time=21.834 ms
+64 bytes from 172.25.81.5: icmp_seq=2 ttl=250 time=17.55 ms
+
+HV-02# traceroute 172.25.81.5 vrf VLAN-20
+traceroute to 172.25.81.5 (172.25.81.5), 30 hops max, 40 byte packets
+ 1  172.25.82.1 (172.25.82.1)  4.676 ms  4.792 ms  2.298 ms
+ 2  172.25.98.2 (172.25.98.2)  4.852 ms  5.224 ms  9.029 ms
+ 3  172.25.99.1 (172.25.99.1)  8.039 ms  8.579 ms  7.024 ms
+ 4  172.25.81.1 (172.25.81.1)  12.792 ms  16.08 ms  13.564 ms
+ 5  172.25.81.5 (172.25.81.5)  15.109 ms  19.671 ms  14.963 ms
 ```
