@@ -6,7 +6,8 @@ VXLAN. Multihoming
 ---
 # Схема
 
-<img width="709" height="378" alt="image" src="https://github.com/user-attachments/assets/2ebb1020-fc88-4230-8745-25248884d520" />
+<img width="739" height="344" alt="image" src="https://github.com/user-attachments/assets/17d4e75c-54e4-469a-9f83-e5ebd4013b1f" />
+
 
 ---
 
