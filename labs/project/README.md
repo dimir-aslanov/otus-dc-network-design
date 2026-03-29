@@ -1167,13 +1167,125 @@ Id    Port          Status Consistency Reason                Active vlans
 100   Po100         up     success     success               10,20
 ```
 
+---
+
+
+# Проверка доступности
 
 ## HV-01
 ```text
-```
+HV-01# sh ip int brief vrf all
 
-## HV-02
+Interface            IP Address      Interface Status
+Vlan10               172.25.81.5     protocol-up/link-up/admin-up
+
+IP Interface Status for VRF "VLAN-20"(4)
+Interface            IP Address      Interface Status
+Vlan20               172.25.82.5     protocol-up/link-up/admin-up
+
+```
 ```text
+HV-01# ping 172.25.81.6 vrf VlAN-20
+PING 172.25.81.6 (172.25.81.6): 56 data bytes
+64 bytes from 172.25.81.6: icmp_seq=0 ttl=253 time=13.833 ms
+64 bytes from 172.25.81.6: icmp_seq=1 ttl=253 time=11.374 ms
+64 bytes from 172.25.81.6: icmp_seq=2 ttl=253 time=14.761 ms
 
 ```
+```text
+HV-01# ping 172.25.82.6 vrf VlAN-20
+PING 172.25.82.6 (172.25.82.6): 56 data bytes
+64 bytes from 172.25.82.6: icmp_seq=0 ttl=254 time=9.844 ms
+64 bytes from 172.25.82.6: icmp_seq=1 ttl=254 time=8.784 ms
+64 bytes from 172.25.82.6: icmp_seq=2 ttl=254 time=8.744 ms
 
+```
+```text
+HV-01# traceroute 172.25.81.6 vrf VlAN-20
+traceroute to 172.25.81.6 (172.25.81.6), 30 hops max, 40 byte packets
+ 1  172.25.82.1 (172.25.82.1)  10.738 ms  9.337 ms  8.599 ms
+ 2  172.25.81.6 (172.25.81.6)  13.543 ms  12.395 ms  11.447 ms
+```
+
+```text
+HV-01# ping 172.25.81.6 vrf VlAN-10
+PING 172.25.81.6 (172.25.81.6): 56 data bytes
+64 bytes from 172.25.81.6: icmp_seq=0 ttl=254 time=15.787 ms
+64 bytes from 172.25.81.6: icmp_seq=1 ttl=254 time=13.938 ms
+64 bytes from 172.25.81.6: icmp_seq=2 ttl=254 time=15.96 ms
+```
+
+```text
+HV-01# ping 172.25.82.6 vrf VlAN-10
+PING 172.25.82.6 (172.25.82.6): 56 data bytes
+64 bytes from 172.25.82.6: icmp_seq=0 ttl=253 time=17.521 ms
+64 bytes from 172.25.82.6: icmp_seq=1 ttl=253 time=16.053 ms
+64 bytes from 172.25.82.6: icmp_seq=2 ttl=253 time=16.015 ms
+```
+
+```text
+HV-01# traceroute 172.25.82.6 vrf VlAN-10
+traceroute to 172.25.82.6 (172.25.82.6), 30 hops max, 40 byte packets
+ 1  172.25.81.1 (172.25.81.1)  12.545 ms  11.46 ms  11.219 ms
+ 2  172.25.82.6 (172.25.82.6)  15.528 ms  11.459 ms  14.122 ms
+```
+
+###При отключении одного из линка Po:
+
+```text
+LEAF-01(config-if)# sh int eth 1/6 status
+
+--------------------------------------------------------------------------------
+Port          Name               Status    Vlan      Duplex  Speed   Type
+--------------------------------------------------------------------------------
+Eth1/6        HV-01              channelDo trunk     auto    auto    10g
+
+LEAF-01(config-if)# sh vpc brief vpc 10
+
+vPC status
+----------------------------------------------------------------------------
+Id    Port          Status Consistency Reason                Active vlans
+--    ------------  ------ ----------- ------                ---------------
+10    Po10          down*  success     success               -
+```
+
+```text
+LEAF-02(config)# sh int eth 1/6 status
+
+--------------------------------------------------------------------------------
+Port          Name               Status    Vlan      Duplex  Speed   Type
+--------------------------------------------------------------------------------
+Eth1/6        --                 connected trunk     full    1000    10g
+
+
+LEAF-02(config)# sh vpc  brief vpc 10
+vPC status
+----------------------------------------------------------------------------
+Id    Port          Status Consistency Reason                Active vlans
+--    ------------  ------ ----------- ------                ---------------
+10    Po10          up     success     success               10,20
+```
+
+```text
+HV-01(config-if)# ping 172.25.82.6 vrf VlAN-20
+PING 172.25.82.6 (172.25.82.6): 56 data bytes
+64 bytes from 172.25.82.6: icmp_seq=0 ttl=254 time=16.694 ms
+64 bytes from 172.25.82.6: icmp_seq=1 ttl=254 time=11.456 ms
+64 bytes from 172.25.82.6: icmp_seq=2 ttl=254 time=12.304 ms
+```
+
+
+```text
+HV-01(config-if)# ping 172.25.81.6 vrf VlAN-20
+PING 172.25.81.6 (172.25.81.6): 56 data bytes
+64 bytes from 172.25.81.6: icmp_seq=0 ttl=253 time=14.402 ms
+64 bytes from 172.25.81.6: icmp_seq=1 ttl=253 time=13.916 ms
+64 bytes from 172.25.81.6: icmp_seq=2 ttl=253 time=14.875 ms
+```
+
+```text
+HV-01(config-if)# traceroute 172.25.81.6 vrf VlAN-20
+traceroute to 172.25.81.6 (172.25.81.6), 30 hops max, 40 byte packets
+ 1  172.25.82.1 (172.25.82.1)  11.794 ms  12.144 ms  16.85 ms
+ 2  172.25.81.6 (172.25.81.6)  14.134 ms  14.016 ms  15.297 ms
+```
