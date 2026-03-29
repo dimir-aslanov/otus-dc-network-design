@@ -1,4 +1,4 @@
-<img width="934" height="123" alt="image" src="https://github.com/user-attachments/assets/824cfd60-a4dc-4fad-9c35-f11ac4bf81b8" /># Тема проекта
+# Тема проекта
 Проектирование сетевой фабрики на основе VxLAN EVPN
 
 ## Цель:
