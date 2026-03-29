@@ -138,10 +138,14 @@
 # Конфигурации
 
  - [SPINE-01](configs/SPINE-01.txt)
- - [Lab02.Underlay. OSPF](lab02/)
- - [Lab02.Underlay. ISIS](lab03/)
-
-
+ - [SPINE-02](configs/SPINE-02.txt)
+ - [LEAF-01](configs/LEAF-01.txt)
+ - [LEAF-02](configs/LEAF-02.txt)
+ - [LEAF-03](configs/LEAF-03.txt)
+ - [FW-01](configs/FW-01.txt)
+ - [FW-01](configs/FW-01.txt)
+ - [HV-01](configs/HV-01.txt)
+ - [HV-02](configs/HV-02.txt)
 
 # Вывод CLI
 
