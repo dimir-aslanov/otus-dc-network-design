@@ -421,14 +421,752 @@ Id    Port          Status Consistency Reason                Active vlans
 
 ## LEAF-02
 ```text
+LEAF-02(config)# sh ip int brief
+
+IP Interface Status for VRF "default"(1)
+Interface            IP Address      Interface Status
+Lo0                  10.0.102.1      protocol-up/link-up/admin-up
+Lo1                  10.1.102.1      protocol-up/link-up/admin-up
+Eth1/1               10.2.1.3        protocol-up/link-up/admin-up
+Eth1/2               10.2.2.3        protocol-up/link-up/admin-up
 ```
+```text
+LEAF-02(config)# sh ip ospf neighbors
+ OSPF Process ID UNDERLAY VRF default
+ Total number of neighbors: 2
+ Neighbor ID     Pri State            Up Time  Address         Interface
+ 10.0.1.1          1 FULL/ -          01:34:29 10.2.1.2        Eth1/1
+ 10.0.2.1          1 FULL/ -          01:35:11 10.2.2.2        Eth1/2
+```
+```text
+LEAF-02(config)# sh ip route ospf-UNDERLAY
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+10.0.1.1/32, ubest/mbest: 1/0
+    *via 10.2.1.2, Eth1/1, [110/101], 01:34:43, ospf-UNDERLAY, intra
+10.0.2.1/32, ubest/mbest: 1/0
+    *via 10.2.2.2, Eth1/2, [110/101], 01:35:23, ospf-UNDERLAY, intra
+10.0.101.1/32, ubest/mbest: 2/0
+    *via 10.2.1.2, Eth1/1, [110/201], 01:34:43, ospf-UNDERLAY, intra
+    *via 10.2.2.2, Eth1/2, [110/201], 01:35:21, ospf-UNDERLAY, intra
+10.0.103.1/32, ubest/mbest: 2/0
+    *via 10.2.1.2, Eth1/1, [110/201], 01:34:43, ospf-UNDERLAY, intra
+    *via 10.2.2.2, Eth1/2, [110/201], 01:35:23, ospf-UNDERLAY, intra
+10.0.104.1/32, ubest/mbest: 2/0
+    *via 10.2.1.2, Eth1/1, [110/201], 01:34:43, ospf-UNDERLAY, intra
+    *via 10.2.2.2, Eth1/2, [110/201], 01:35:23, ospf-UNDERLAY, intra
+10.1.100.3/32, ubest/mbest: 2/0
+    *via 10.2.1.2, Eth1/1, [110/201], 01:34:43, ospf-UNDERLAY, intra
+    *via 10.2.2.2, Eth1/2, [110/201], 01:35:23, ospf-UNDERLAY, intra
+10.1.101.1/32, ubest/mbest: 2/0
+    *via 10.2.1.2, Eth1/1, [110/201], 01:34:43, ospf-UNDERLAY, intra
+    *via 10.2.2.2, Eth1/2, [110/201], 01:35:21, ospf-UNDERLAY, intra
+10.1.103.1/32, ubest/mbest: 2/0
+    *via 10.2.1.2, Eth1/1, [110/201], 01:34:43, ospf-UNDERLAY, intra
+    *via 10.2.2.2, Eth1/2, [110/201], 01:35:23, ospf-UNDERLAY, intra
+10.1.104.1/32, ubest/mbest: 2/0
+    *via 10.2.1.2, Eth1/1, [110/201], 01:34:43, ospf-UNDERLAY, intra
+    *via 10.2.2.2, Eth1/2, [110/201], 01:35:23, ospf-UNDERLAY, intra
+10.2.1.0/31, ubest/mbest: 1/0
+    *via 10.2.1.2, Eth1/1, [110/200], 01:34:43, ospf-UNDERLAY, intra
+10.2.1.4/31, ubest/mbest: 1/0
+    *via 10.2.1.2, Eth1/1, [110/200], 01:34:43, ospf-UNDERLAY, intra
+10.2.1.6/31, ubest/mbest: 1/0
+    *via 10.2.1.2, Eth1/1, [110/200], 01:34:43, ospf-UNDERLAY, intra
+10.2.2.0/31, ubest/mbest: 1/0
+    *via 10.2.2.2, Eth1/2, [110/200], 01:35:23, ospf-UNDERLAY, intra
+10.2.2.4/31, ubest/mbest: 1/0
+    *via 10.2.2.2, Eth1/2, [110/200], 01:35:23, ospf-UNDERLAY, intra
+10.2.2.6/31, ubest/mbest: 1/0
+    *via 10.2.2.2, Eth1/2, [110/200], 01:35:23, ospf-UNDERLAY, intra
+```
+```text
+LEAF-02(config)# sh bgp l2vpn evpn summary
+BGP summary information for VRF default, address family L2VPN EVPN
+BGP router identifier 10.0.102.1, local AS number 65102
+BGP table version is 192, L2VPN EVPN config peers 2, capable peers 2
+22 network entries and 40 paths using 6088 bytes of memory
+BGP attribute entries [16/2752], BGP AS path entries [2/20]
+BGP community entries [0/0], BGP clusterlist entries [0/0]
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.0.1.1        4 65999    1953    1905      192    0    0 00:51:02 12
+10.0.2.1        4 65999    1965    1918      192    0    0 00:50:59 12
+```
+```text
+LEAF-02(config)# sh bgp l2vpn evpn
+BGP routing table information for VRF default, address family L2VPN EVPN
+BGP table version is 192, Local Router ID is 10.0.102.1
+Status: s-suppressed, x-deleted, S-stale, d-dampened, h-history, *-valid, >-best
+Path type: i-internal, e-external, c-confed, l-local, a-aggregate, r-redist, I-i
+njected
+Origin codes: i - IGP, e - EGP, ? - incomplete, | - multipath, & - backup, 2 - b
+est2
+
+   Network            Next Hop            Metric     LocPrf     Weight Path
+Route Distinguisher: 10.0.102.1:32777    (L2VNI 10010)
+*>l[2]:[0]:[0]:[48]:[5006.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.1                        100      32768 i
+* e[2]:[0]:[0]:[48]:[5008.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+03 i
+* e[2]:[0]:[0]:[48]:[500a.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+03 i
+*>e                   10.1.100.3                                     0 65999 651
+04 i
+*>l[3]:[0]:[32]:[10.1.100.1]/88
+                      10.1.100.1                        100      32768 i
+* e[3]:[0]:[32]:[10.1.100.3]/88
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+03 i
+
+Route Distinguisher: 10.0.102.1:32787    (L2VNI 10020)
+*>l[2]:[0]:[0]:[48]:[5006.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.1                        100      32768 i
+* e[2]:[0]:[0]:[48]:[5008.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+03 i
+* e[2]:[0]:[0]:[48]:[500a.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+03 i
+*>e                   10.1.100.3                                     0 65999 651
+04 i
+*>l[3]:[0]:[32]:[10.1.100.1]/88
+                      10.1.100.1                        100      32768 i
+* e[3]:[0]:[32]:[10.1.100.3]/88
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+03 i
+
+Route Distinguisher: 10.0.103.1:32777
+* e[2]:[0]:[0]:[48]:[5008.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+03 i
+*>e                   10.1.100.3                                     0 65999 651
+03 i
+*>e[2]:[0]:[0]:[48]:[500a.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+03 i
+* e                   10.1.100.3                                     0 65999 651
+03 i
+* e[3]:[0]:[32]:[10.1.100.3]/88
+                      10.1.100.3                                     0 65999 651
+03 i
+*>e                   10.1.100.3                                     0 65999 651
+03 i
+
+Route Distinguisher: 10.0.103.1:32787
+* e[2]:[0]:[0]:[48]:[5008.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+03 i
+*>e                   10.1.100.3                                     0 65999 651
+03 i
+* e[2]:[0]:[0]:[48]:[500a.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+03 i
+*>e                   10.1.100.3                                     0 65999 651
+03 i
+* e[3]:[0]:[32]:[10.1.100.3]/88
+                      10.1.100.3                                     0 65999 651
+03 i
+*>e                   10.1.100.3                                     0 65999 651
+03 i
+
+Route Distinguisher: 10.0.104.1:32777
+* e[2]:[0]:[0]:[48]:[5008.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+04 i
+* e[2]:[0]:[0]:[48]:[500a.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+04 i
+* e[3]:[0]:[32]:[10.1.100.3]/88
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+04 i
+
+Route Distinguisher: 10.0.104.1:32787
+* e[2]:[0]:[0]:[48]:[5008.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+04 i
+* e[2]:[0]:[0]:[48]:[500a.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+04 i
+* e[3]:[0]:[32]:[10.1.100.3]/88
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+04 i
+
+```
+```text
+LEAF-02(config)# sh mac address-table
+Legend:
+        * - primary entry, G - Gateway MAC, (R) - Routed MAC, O - Overlay MAC
+        age - seconds since last seen,+ - primary entry using vPC Peer-Link,
+        (T) - True, (F) - False, C - ControlPlane MAC, ~ - vsan
+   VLAN     MAC Address      Type      age     Secure NTFY Ports
+---------+-----------------+--------+---------+------+----+------------------
+*   10     5006.0000.1b08   dynamic  0         F      F    Po10
+C   10     5008.0000.1b08   dynamic  0         F      F    nve1(10.1.100.3)
+C   10     500a.0000.1b08   dynamic  0         F      F    nve1(10.1.100.3)
+*   20     5006.0000.1b08   dynamic  0         F      F    Po10
+C   20     5008.0000.1b08   dynamic  0         F      F    nve1(10.1.100.3)
+C   20     500a.0000.1b08   dynamic  0         F      F    nve1(10.1.100.3)
+G    -     5005.0000.1b08   static   -         F      F    sup-eth1(R)
+G    -     5005.0000.1b08   static   -         F      F    Lo0(R) (Lo0)
+```
+```text
+LEAF-02(config)# sh nve peers
+Interface Peer-IP                                 State LearnType Uptime   Route
+r-Mac
+--------- --------------------------------------  ----- --------- -------- -----
+------------
+nve1      10.1.100.3                              Up    CP        01:37:05 n/a
+
+```
+```text
+LEAF-02(config)# sh vpc brief
+Legend:
+                (*) - local vPC is down, forwarding via vPC peer-link
+
+vPC domain id                     : 1
+Peer status                       : peer adjacency formed ok
+vPC keep-alive status             : peer is alive
+Configuration consistency status  : success
+Per-vlan consistency status       : success
+Type-2 consistency status         : success
+vPC role                          : secondary
+Number of vPCs configured         : 1
+Peer Gateway                      : Enabled
+Dual-active excluded VLANs        : -
+Graceful Consistency Check        : Enabled
+Auto-recovery status              : Disabled
+Delay-restore status              : Timer is off.(timeout = 30s)
+Delay-restore SVI status          : Timer is off.(timeout = 10s)
+Operational Layer3 Peer-router    : Enabled
+Virtual-peerlink mode             : Disabled
+
+vPC Peer-link status
+---------------------------------------------------------------------
+id    Port   Status Active vlans
+--    ----   ------ -------------------------------------------------
+1     Po1    up     1,10,20
+
+
+vPC status
+----------------------------------------------------------------------------
+Id    Port          Status Consistency Reason                Active vlans
+--    ------------  ------ ----------- ------                ---------------
+10    Po10          up     success     success               10,20
+
+
+```
+
+
 ## LEAF-03
 ```text
+LEAF-03(config)# sh ip int brief
+
+IP Interface Status for VRF "default"(1)
+Interface            IP Address      Interface Status
+Lo0                  10.0.103.1      protocol-up/link-up/admin-up
+Lo1                  10.1.103.1      protocol-up/link-up/admin-up
+Eth1/1               10.2.1.5        protocol-up/link-up/admin-up
+Eth1/2               10.2.2.5        protocol-up/link-up/admin-up
 ```
+```text
+LEAF-03(config)# sh ip ospf neighbors
+ OSPF Process ID UNDERLAY VRF default
+ Total number of neighbors: 2
+ Neighbor ID     Pri State            Up Time  Address         Interface
+ 10.0.1.1          1 FULL/ -          01:39:13 10.2.1.4        Eth1/1
+ 10.0.2.1          1 FULL/ -          01:39:54 10.2.2.4        Eth1/2
+```
+```text
+LEAF-03(config)# sh ip route ospf-UNDERLAY
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+10.0.1.1/32, ubest/mbest: 1/0
+    *via 10.2.1.4, Eth1/1, [110/101], 01:39:26, ospf-UNDERLAY, intra
+10.0.2.1/32, ubest/mbest: 1/0
+    *via 10.2.2.4, Eth1/2, [110/101], 01:40:08, ospf-UNDERLAY, intra
+10.0.101.1/32, ubest/mbest: 2/0
+    *via 10.2.1.4, Eth1/1, [110/201], 01:39:26, ospf-UNDERLAY, intra
+    *via 10.2.2.4, Eth1/2, [110/201], 01:40:01, ospf-UNDERLAY, intra
+10.0.102.1/32, ubest/mbest: 2/0
+    *via 10.2.1.4, Eth1/1, [110/201], 01:39:23, ospf-UNDERLAY, intra
+    *via 10.2.2.4, Eth1/2, [110/201], 01:40:02, ospf-UNDERLAY, intra
+10.0.104.1/32, ubest/mbest: 2/0
+    *via 10.2.1.4, Eth1/1, [110/201], 01:39:23, ospf-UNDERLAY, intra
+    *via 10.2.2.4, Eth1/2, [110/201], 01:40:03, ospf-UNDERLAY, intra
+10.1.100.1/32, ubest/mbest: 2/0
+    *via 10.2.1.4, Eth1/1, [110/201], 01:39:26, ospf-UNDERLAY, intra
+    *via 10.2.2.4, Eth1/2, [110/201], 01:40:02, ospf-UNDERLAY, intra
+10.1.101.1/32, ubest/mbest: 2/0
+    *via 10.2.1.4, Eth1/1, [110/201], 01:39:26, ospf-UNDERLAY, intra
+    *via 10.2.2.4, Eth1/2, [110/201], 01:40:01, ospf-UNDERLAY, intra
+10.1.102.1/32, ubest/mbest: 2/0
+    *via 10.2.1.4, Eth1/1, [110/201], 01:39:23, ospf-UNDERLAY, intra
+    *via 10.2.2.4, Eth1/2, [110/201], 01:40:02, ospf-UNDERLAY, intra
+10.1.104.1/32, ubest/mbest: 2/0
+    *via 10.2.1.4, Eth1/1, [110/201], 01:39:23, ospf-UNDERLAY, intra
+    *via 10.2.2.4, Eth1/2, [110/201], 01:40:03, ospf-UNDERLAY, intra
+10.2.1.0/31, ubest/mbest: 1/0
+    *via 10.2.1.4, Eth1/1, [110/200], 01:39:26, ospf-UNDERLAY, intra
+10.2.1.2/31, ubest/mbest: 1/0
+    *via 10.2.1.4, Eth1/1, [110/200], 01:39:26, ospf-UNDERLAY, intra
+10.2.1.6/31, ubest/mbest: 1/0
+    *via 10.2.1.4, Eth1/1, [110/200], 01:39:26, ospf-UNDERLAY, intra
+10.2.2.0/31, ubest/mbest: 1/0
+    *via 10.2.2.4, Eth1/2, [110/200], 01:40:08, ospf-UNDERLAY, intra
+10.2.2.2/31, ubest/mbest: 1/0
+    *via 10.2.2.4, Eth1/2, [110/200], 01:40:08, ospf-UNDERLAY, intra
+10.2.2.6/31, ubest/mbest: 1/0
+    *via 10.2.2.4, Eth1/2, [110/200], 01:40:08, ospf-UNDERLAY, intra
+```
+```text
+LEAF-03(config)# sh bgp l2vpn evpn summary
+BGP summary information for VRF default, address family L2VPN EVPN
+BGP router identifier 10.0.103.1, local AS number 65103
+BGP table version is 175, L2VPN EVPN config peers 2, capable peers 2
+18 network entries and 30 paths using 4872 bytes of memory
+BGP attribute entries [16/2752], BGP AS path entries [2/20]
+BGP community entries [0/0], BGP clusterlist entries [0/0]
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.0.1.1        4 65999    2042    1999      175    0    0 00:55:38 8
+10.0.2.1        4 65999    2055    2012      175    0    0 00:55:38 8
+```
+```text
+
+LEAF-03(config)# sh bgp l2vpn evpn
+BGP routing table information for VRF default, address family L2VPN EVPN
+BGP table version is 175, Local Router ID is 10.0.103.1
+Status: s-suppressed, x-deleted, S-stale, d-dampened, h-history, *-valid, >-best
+Path type: i-internal, e-external, c-confed, l-local, a-aggregate, r-redist, I-i
+njected
+Origin codes: i - IGP, e - EGP, ? - incomplete, | - multipath, & - backup, 2 - b
+est2
+
+   Network            Next Hop            Metric     LocPrf     Weight Path
+Route Distinguisher: 10.0.101.1:32777
+* e[2]:[0]:[0]:[48]:[5006.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.1                                     0 65999 651
+01 i
+*>e                   10.1.100.1                                     0 65999 651
+01 i
+*>e[3]:[0]:[32]:[10.1.100.1]/88
+                      10.1.100.1                                     0 65999 651
+01 i
+* e                   10.1.100.1                                     0 65999 651
+01 i
+
+Route Distinguisher: 10.0.101.1:32787
+* e[2]:[0]:[0]:[48]:[5006.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.1                                     0 65999 651
+01 i
+*>e                   10.1.100.1                                     0 65999 651
+01 i
+*>e[3]:[0]:[32]:[10.1.100.1]/88
+                      10.1.100.1                                     0 65999 651
+01 i
+* e                   10.1.100.1                                     0 65999 651
+01 i
+
+Route Distinguisher: 10.0.102.1:32777
+*>e[2]:[0]:[0]:[48]:[5006.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.1                                     0 65999 651
+02 i
+* e                   10.1.100.1                                     0 65999 651
+02 i
+*>e[3]:[0]:[32]:[10.1.100.1]/88
+                      10.1.100.1                                     0 65999 651
+02 i
+* e                   10.1.100.1                                     0 65999 651
+02 i
+
+Route Distinguisher: 10.0.102.1:32787
+*>e[2]:[0]:[0]:[48]:[5006.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.1                                     0 65999 651
+02 i
+* e                   10.1.100.1                                     0 65999 651
+02 i
+*>e[3]:[0]:[32]:[10.1.100.1]/88
+                      10.1.100.1                                     0 65999 651
+02 i
+* e                   10.1.100.1                                     0 65999 651
+02 i
+
+Route Distinguisher: 10.0.103.1:32777    (L2VNI 10010)
+* e[2]:[0]:[0]:[48]:[5006.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.1                                     0 65999 651
+01 i
+*>e                   10.1.100.1                                     0 65999 651
+02 i
+*>l[2]:[0]:[0]:[48]:[5008.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                        100      32768 i
+*>l[2]:[0]:[0]:[48]:[500a.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                        100      32768 i
+*>e[3]:[0]:[32]:[10.1.100.1]/88
+                      10.1.100.1                                     0 65999 651
+01 i
+* e                   10.1.100.1                                     0 65999 651
+02 i
+*>l[3]:[0]:[32]:[10.1.100.3]/88
+                      10.1.100.3                        100      32768 i
+
+Route Distinguisher: 10.0.103.1:32787    (L2VNI 10020)
+* e[2]:[0]:[0]:[48]:[5006.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.1                                     0 65999 651
+01 i
+*>e                   10.1.100.1                                     0 65999 651
+02 i
+*>l[2]:[0]:[0]:[48]:[5008.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                        100      32768 i
+*>l[2]:[0]:[0]:[48]:[500a.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                        100      32768 i
+*>e[3]:[0]:[32]:[10.1.100.1]/88
+                      10.1.100.1                                     0 65999 651
+01 i
+* e                   10.1.100.1                                     0 65999 651
+02 i
+*>l[3]:[0]:[32]:[10.1.100.3]/88
+                      10.1.100.3                        100      32768 i
+
+```
+```text
+LEAF-03(config)# sh mac address-table
+Legend:
+        * - primary entry, G - Gateway MAC, (R) - Routed MAC, O - Overlay MAC
+        age - seconds since last seen,+ - primary entry using vPC Peer-Link,
+        (T) - True, (F) - False, C - ControlPlane MAC, ~ - vsan
+   VLAN     MAC Address      Type      age     Secure NTFY Ports
+---------+-----------------+--------+---------+------+----+------------------
+C   10     5006.0000.1b08   dynamic  0         F      F    nve1(10.1.100.1)
+*   10     5008.0000.1b08   dynamic  0         F      F    Po10
++   10     500a.0000.1b08   dynamic  0         F      F    Po100
+C   20     5006.0000.1b08   dynamic  0         F      F    nve1(10.1.100.1)
+*   20     5008.0000.1b08   dynamic  0         F      F    Po10
++   20     500a.0000.1b08   dynamic  0         F      F    Po100
+G    -     5004.0000.1b08   static   -         F      F    sup-eth1(R)
+G    -     5004.0000.1b08   static   -         F      F    Lo0(R) (Lo0)
+LEAF-03(config)#
+```
+```text
+LEAF-03(config)# sh nve peers
+Interface Peer-IP                                 State LearnType Uptime   Route
+r-Mac
+--------- --------------------------------------  ----- --------- -------- -----
+------------
+nve1      10.1.100.1                              Up    CP        01:41:26 n/a
+```
+```text
+LEAF-03(config)# sh vpc brief
+Legend:
+                (*) - local vPC is down, forwarding via vPC peer-link
+
+vPC domain id                     : 1
+Peer status                       : peer adjacency formed ok
+vPC keep-alive status             : peer is alive
+Configuration consistency status  : success
+Per-vlan consistency status       : success
+Type-2 consistency status         : success
+vPC role                          : primary
+Number of vPCs configured         : 2
+Peer Gateway                      : Enabled
+Dual-active excluded VLANs        : -
+Graceful Consistency Check        : Enabled
+Auto-recovery status              : Disabled
+Delay-restore status              : Timer is off.(timeout = 30s)
+Delay-restore SVI status          : Timer is off.(timeout = 10s)
+Operational Layer3 Peer-router    : Enabled
+Virtual-peerlink mode             : Disabled
+
+vPC Peer-link status
+---------------------------------------------------------------------
+id    Port   Status Active vlans
+--    ----   ------ -------------------------------------------------
+1     Po1    up     1,10,20
+
+
+vPC status
+----------------------------------------------------------------------------
+Id    Port          Status Consistency Reason                Active vlans
+--    ------------  ------ ----------- ------                ---------------
+10    Po10          up     success     success               10,20
+
+
+
+100   Po100         up     success     success               10,20
+
+```
+
+
 
 ## LEAF-04
 ```text
+LEAF-04(config)#               sh ip int brief
+
+IP Interface Status for VRF "default"(1)
+Interface            IP Address      Interface Status
+Lo0                  10.0.104.1      protocol-up/link-up/admin-up
+Lo1                  10.1.104.1      protocol-up/link-up/admin-up
+Eth1/1               10.2.1.7        protocol-up/link-up/admin-up
+Eth1/2               10.2.2.7        protocol-up/link-up/admin-up
 ```
+```text
+LEAF-04(config)# sh ip ospf neighbors
+ OSPF Process ID UNDERLAY VRF default
+ Total number of neighbors: 2
+ Neighbor ID     Pri State            Up Time  Address         Interface
+ 10.0.1.1          1 FULL/ -          01:42:19 10.2.1.6        Eth1/1
+ 10.0.2.1          1 FULL/ -          01:43:02 10.2.2.6        Eth1/2
+```
+```text
+LEAF-04(config)# sh ip route ospf-UNDERLAY
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+10.0.1.1/32, ubest/mbest: 1/0
+    *via 10.2.1.6, Eth1/1, [110/101], 01:42:43, ospf-UNDERLAY, intra
+10.0.2.1/32, ubest/mbest: 1/0
+    *via 10.2.2.6, Eth1/2, [110/101], 01:43:26, ospf-UNDERLAY, intra
+10.0.101.1/32, ubest/mbest: 2/0
+    *via 10.2.1.6, Eth1/1, [110/201], 01:42:43, ospf-UNDERLAY, intra
+    *via 10.2.2.6, Eth1/2, [110/201], 01:43:21, ospf-UNDERLAY, intra
+10.0.102.1/32, ubest/mbest: 2/0
+    *via 10.2.1.6, Eth1/1, [110/201], 01:42:43, ospf-UNDERLAY, intra
+    *via 10.2.2.6, Eth1/2, [110/201], 01:43:22, ospf-UNDERLAY, intra
+10.0.103.1/32, ubest/mbest: 2/0
+    *via 10.2.1.6, Eth1/1, [110/201], 01:42:43, ospf-UNDERLAY, intra
+    *via 10.2.2.6, Eth1/2, [110/201], 01:43:23, ospf-UNDERLAY, intra
+10.1.100.1/32, ubest/mbest: 2/0
+    *via 10.2.1.6, Eth1/1, [110/201], 01:42:43, ospf-UNDERLAY, intra
+    *via 10.2.2.6, Eth1/2, [110/201], 01:43:22, ospf-UNDERLAY, intra
+10.1.101.1/32, ubest/mbest: 2/0
+    *via 10.2.1.6, Eth1/1, [110/201], 01:42:43, ospf-UNDERLAY, intra
+
+...skipping 1 line
+10.1.102.1/32, ubest/mbest: 2/0
+    *via 10.2.1.6, Eth1/1, [110/201], 01:42:43, ospf-UNDERLAY, intra
+    *via 10.2.2.6, Eth1/2, [110/201], 01:43:22, ospf-UNDERLAY, intra
+10.1.103.1/32, ubest/mbest: 2/0
+    *via 10.2.1.6, Eth1/1, [110/201], 01:42:43, ospf-UNDERLAY, intra
+    *via 10.2.2.6, Eth1/2, [110/201], 01:43:23, ospf-UNDERLAY, intra
+10.2.1.0/31, ubest/mbest: 1/0
+    *via 10.2.1.6, Eth1/1, [110/200], 01:42:43, ospf-UNDERLAY, intra
+10.2.1.2/31, ubest/mbest: 1/0
+    *via 10.2.1.6, Eth1/1, [110/200], 01:42:43, ospf-UNDERLAY, intra
+10.2.1.4/31, ubest/mbest: 1/0
+    *via 10.2.1.6, Eth1/1, [110/200], 01:42:43, ospf-UNDERLAY, intra
+10.2.2.0/31, ubest/mbest: 1/0
+    *via 10.2.2.6, Eth1/2, [110/200], 01:43:26, ospf-UNDERLAY, intra
+10.2.2.2/31, ubest/mbest: 1/0
+    *via 10.2.2.6, Eth1/2, [110/200], 01:43:26, ospf-UNDERLAY, intra
+10.2.2.4/31, ubest/mbest: 1/0
+    *via 10.2.2.6, Eth1/2, [110/200], 01:43:26, ospf-UNDERLAY, intra
+```
+```text
+LEAF-04(config)# sh bgp l2vpn evpn summary
+BGP summary information for VRF default, address family L2VPN EVPN
+BGP router identifier 10.0.104.1, local AS number 65104
+BGP table version is 181, L2VPN EVPN config peers 2, capable peers 2
+18 network entries and 30 paths using 4872 bytes of memory
+BGP attribute entries [16/2752], BGP AS path entries [2/20]
+BGP community entries [0/0], BGP clusterlist entries [0/0]
+
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.0.1.1        4 65999    2104    2063      181    0    0 00:58:42 8
+10.0.2.1        4 65999    2117    2076      181    0    0 00:58:40 8
+```
+```text
+LEAF-04(config)# sh bgp l2vpn evpn
+BGP routing table information for VRF default, address family L2VPN EVPN
+BGP table version is 181, Local Router ID is 10.0.104.1
+Status: s-suppressed, x-deleted, S-stale, d-dampened, h-history, *-valid, >-best
+Path type: i-internal, e-external, c-confed, l-local, a-aggregate, r-redist, I-i
+njected
+Origin codes: i - IGP, e - EGP, ? - incomplete, | - multipath, & - backup, 2 - b
+est2
+
+   Network            Next Hop            Metric     LocPrf     Weight Path
+Route Distinguisher: 10.0.101.1:32777
+*>e[2]:[0]:[0]:[48]:[5006.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.1                                     0 65999 651
+01 i
+* e                   10.1.100.1                                     0 65999 651
+01 i
+*>e[3]:[0]:[32]:[10.1.100.1]/88
+                      10.1.100.1                                     0 65999 651
+01 i
+* e                   10.1.100.1                                     0 65999 651
+01 i
+
+Route Distinguisher: 10.0.101.1:32787
+*>e[2]:[0]:[0]:[48]:[5006.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.1                                     0 65999 651
+01 i
+* e                   10.1.100.1                                     0 65999 651
+01 i
+*>e[3]:[0]:[32]:[10.1.100.1]/88
+                      10.1.100.1                                     0 65999 651
+01 i
+* e                   10.1.100.1                                     0 65999 651
+01 i
+
+Route Distinguisher: 10.0.102.1:32777
+*>e[2]:[0]:[0]:[48]:[5006.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.1                                     0 65999 651
+02 i
+* e                   10.1.100.1                                     0 65999 651
+02 i
+*>e[3]:[0]:[32]:[10.1.100.1]/88
+                      10.1.100.1                                     0 65999 651
+02 i
+* e                   10.1.100.1                                     0 65999 651
+02 i
+
+Route Distinguisher: 10.0.102.1:32787
+*>e[2]:[0]:[0]:[48]:[5006.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.1                                     0 65999 651
+02 i
+* e                   10.1.100.1                                     0 65999 651
+02 i
+*>e[3]:[0]:[32]:[10.1.100.1]/88
+                      10.1.100.1                                     0 65999 651
+02 i
+* e                   10.1.100.1                                     0 65999 651
+02 i
+
+Route Distinguisher: 10.0.104.1:32777    (L2VNI 10010)
+*>e[2]:[0]:[0]:[48]:[5006.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.1                                     0 65999 651
+02 i
+* e                   10.1.100.1                                     0 65999 651
+01 i
+*>l[2]:[0]:[0]:[48]:[5008.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                        100      32768 i
+*>l[2]:[0]:[0]:[48]:[500a.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                        100      32768 i
+*>e[3]:[0]:[32]:[10.1.100.1]/88
+                      10.1.100.1                                     0 65999 651
+02 i
+* e                   10.1.100.1                                     0 65999 651
+01 i
+*>l[3]:[0]:[32]:[10.1.100.3]/88
+                      10.1.100.3                        100      32768 i
+
+Route Distinguisher: 10.0.104.1:32787    (L2VNI 10020)
+*>e[2]:[0]:[0]:[48]:[5006.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.1                                     0 65999 651
+02 i
+* e                   10.1.100.1                                     0 65999 651
+01 i
+*>l[2]:[0]:[0]:[48]:[5008.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                        100      32768 i
+*>l[2]:[0]:[0]:[48]:[500a.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                        100      32768 i
+*>e[3]:[0]:[32]:[10.1.100.1]/88
+                      10.1.100.1                                     0 65999 651
+02 i
+* e                   10.1.100.1                                     0 65999 651
+01 i
+*>l[3]:[0]:[32]:[10.1.100.3]/88
+                      10.1.100.3                        100      32768 i
+```
+```text
+LEAF-04(config)# sh mac address-table
+Legend:
+        * - primary entry, G - Gateway MAC, (R) - Routed MAC, O - Overlay MAC
+        age - seconds since last seen,+ - primary entry using vPC Peer-Link,
+        (T) - True, (F) - False, C - ControlPlane MAC, ~ - vsan
+   VLAN     MAC Address      Type      age     Secure NTFY Ports
+---------+-----------------+--------+---------+------+----+------------------
+C   10     5006.0000.1b08   dynamic  0         F      F    nve1(10.1.100.1)
++   10     5008.0000.1b08   dynamic  0         F      F    Po10
+*   10     500a.0000.1b08   dynamic  0         F      F    Po100
+C   20     5006.0000.1b08   dynamic  0         F      F    nve1(10.1.100.1)
++   20     5008.0000.1b08   dynamic  0         F      F    Po10
+*   20     500a.0000.1b08   dynamic  0         F      F    Po100
+G    -     5007.0000.1b08   static   -         F      F    sup-eth1(R)
+G    -     5007.0000.1b08   static   -         F      F    Lo0(R) (Lo0)
+```
+```text
+LEAF-04(config)# sh nve peers
+Interface Peer-IP                                 State LearnType Uptime   Route
+r-Mac
+--------- --------------------------------------  ----- --------- -------- -----
+------------
+nve1      10.1.100.1                              Up    CP        00:59:28 n/a
+```
+```text
+LEAF-04(config)# sh vpc brief
+Legend:
+                (*) - local vPC is down, forwarding via vPC peer-link
+
+vPC domain id                     : 1
+Peer status                       : peer adjacency formed ok
+vPC keep-alive status             : peer is alive
+Configuration consistency status  : success
+Per-vlan consistency status       : success
+Type-2 consistency status         : success
+vPC role                          : secondary
+Number of vPCs configured         : 2
+Peer Gateway                      : Enabled
+Dual-active excluded VLANs        : -
+Graceful Consistency Check        : Enabled
+Auto-recovery status              : Disabled
+Delay-restore status              : Timer is off.(timeout = 30s)
+Delay-restore SVI status          : Timer is off.(timeout = 10s)
+Operational Layer3 Peer-router    : Enabled
+Virtual-peerlink mode             : Disabled
+
+vPC Peer-link status
+---------------------------------------------------------------------
+id    Port   Status Active vlans
+--    ----   ------ -------------------------------------------------
+1     Po1    up     1,10,20
+
+
+vPC status
+----------------------------------------------------------------------------
+Id    Port          Status Consistency Reason                Active vlans
+--    ------------  ------ ----------- ------                ---------------
+10    Po10          up     success     success               10,20
+
+
+
+100   Po100         up     success     success               10,20
+```
+
 
 ## HV-01
 ```text
