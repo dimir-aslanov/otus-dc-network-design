@@ -137,7 +137,7 @@
 
 # Конфигурации
 
- - [SPINE-01](project/configs/SPINE-01.txt)
+ - [SPINE-01](configs/SPINE-01.txt)
  - [Lab02.Underlay. OSPF](lab02/)
  - [Lab02.Underlay. ISIS](lab03/)
 
