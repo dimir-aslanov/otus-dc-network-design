@@ -152,364 +152,290 @@
 
 ## LEAF-01
 ```text
-LEAF-01# sh ip route vrf OTUS-VRF1
+LEAF-01(config)# sh ip int brief
 
-0.0.0.0/0, ubest/mbest: 1/0
-    *via 10.1.100.3%default, [20/0], 00:49:18, bgp-65101, external, tag 65999, s
-egid: 10999 tunnelid: 0xa016403 encap: VXLAN
+IP Interface Status for VRF "default"(1)
+Interface            IP Address      Interface Status
+Lo0                  10.0.101.1      protocol-up/link-up/admin-up
+Lo1                  10.1.101.1      protocol-up/link-up/admin-up
+Eth1/1               10.2.1.1        protocol-up/link-up/admin-up
+Eth1/2               10.2.2.1        protocol-up/link-up/admin-up
 
-172.25.81.0/24, ubest/mbest: 1/0, attached
-    *via 172.25.81.1, Vlan10, [0/0], 1d02h, direct
-172.25.81.1/32, ubest/mbest: 1/0, attached
-    *via 172.25.81.1, Vlan10, [0/0], 1d02h, local
-172.25.81.5/32, ubest/mbest: 1/0, attached
-    *via 172.25.81.5, Vlan10, [190/0], 00:50:11, hmm
-172.25.81.6/32, ubest/mbest: 1/0
-    *via 10.1.100.3%default, [20/0], 00:49:18, bgp-65101, external, tag 65999, s
-egid: 10999 tunnelid: 0xa016403 encap: VXLAN
+```
+```text
+LEAF-01(config)# sh ip ospf neighbors
+ OSPF Process ID UNDERLAY VRF default
+ Total number of neighbors: 2
+ Neighbor ID     Pri State            Up Time  Address         Interface
+ 10.0.1.1          1 FULL/ -          01:28:10 10.2.1.0        Eth1/1
+ 10.0.2.1          1 FULL/ -          01:28:48 10.2.2.0        Eth1/2
+```
+```text
+LEAF-01(config)# sh ip route ospf-UNDERLAY
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
 
-LEAF-01# sh ip route vrf OTUS-VRF2
-0.0.0.0/0, ubest/mbest: 1/0
-    *via 10.1.100.3%default, [20/0], 01:00:24, bgp-65101, external, tag 65999, s
-egid: 10888 tunnelid: 0xa016403 encap: VXLAN
+10.0.1.1/32, ubest/mbest: 1/0
+    *via 10.2.1.0, Eth1/1, [110/101], 01:28:28, ospf-UNDERLAY, intra
+10.0.2.1/32, ubest/mbest: 1/0
+    *via 10.2.2.0, Eth1/2, [110/101], 01:29:01, ospf-UNDERLAY, intra
+10.0.102.1/32, ubest/mbest: 2/0
+    *via 10.2.1.0, Eth1/1, [110/201], 01:28:23, ospf-UNDERLAY, intra
+    *via 10.2.2.0, Eth1/2, [110/201], 01:29:01, ospf-UNDERLAY, intra
+10.0.103.1/32, ubest/mbest: 2/0
+    *via 10.2.1.0, Eth1/1, [110/201], 01:28:27, ospf-UNDERLAY, intra
+    *via 10.2.2.0, Eth1/2, [110/201], 01:29:01, ospf-UNDERLAY, intra
+10.0.104.1/32, ubest/mbest: 2/0
+    *via 10.2.1.0, Eth1/1, [110/201], 01:28:23, ospf-UNDERLAY, intra
+    *via 10.2.2.0, Eth1/2, [110/201], 01:29:01, ospf-UNDERLAY, intra
+10.1.100.3/32, ubest/mbest: 2/0
+    *via 10.2.1.0, Eth1/1, [110/201], 01:28:27, ospf-UNDERLAY, intra
+    *via 10.2.2.0, Eth1/2, [110/201], 01:29:01, ospf-UNDERLAY, intra
+10.1.102.1/32, ubest/mbest: 2/0
+    *via 10.2.1.0, Eth1/1, [110/201], 01:28:23, ospf-UNDERLAY, intra
+    *via 10.2.2.0, Eth1/2, [110/201], 01:29:01, ospf-UNDERLAY, intra
+10.1.103.1/32, ubest/mbest: 2/0
+    *via 10.2.1.0, Eth1/1, [110/201], 01:28:27, ospf-UNDERLAY, intra
+    *via 10.2.2.0, Eth1/2, [110/201], 01:29:01, ospf-UNDERLAY, intra
+10.1.104.1/32, ubest/mbest: 2/0
+    *via 10.2.1.0, Eth1/1, [110/201], 01:28:23, ospf-UNDERLAY, intra
+    *via 10.2.2.0, Eth1/2, [110/201], 01:29:01, ospf-UNDERLAY, intra
+10.2.1.2/31, ubest/mbest: 1/0
+    *via 10.2.1.0, Eth1/1, [110/200], 01:28:28, ospf-UNDERLAY, intra
+10.2.1.4/31, ubest/mbest: 1/0
+    *via 10.2.1.0, Eth1/1, [110/200], 01:28:28, ospf-UNDERLAY, intra
+10.2.1.6/31, ubest/mbest: 1/0
+    *via 10.2.1.0, Eth1/1, [110/200], 01:28:28, ospf-UNDERLAY, intra
+10.2.2.2/31, ubest/mbest: 1/0
+    *via 10.2.2.0, Eth1/2, [110/200], 01:29:01, ospf-UNDERLAY, intra
+10.2.2.4/31, ubest/mbest: 1/0
+    *via 10.2.2.0, Eth1/2, [110/200], 01:29:01, ospf-UNDERLAY, intra
+10.2.2.6/31, ubest/mbest: 1/0
+    *via 10.2.2.0, Eth1/2, [110/200], 01:29:01, ospf-UNDERLAY, intra
+```
+```text
+LEAF-01(config)# sh bgp l2vpn evpn summary
+BGP summary information for VRF default, address family L2VPN EVPN
+BGP router identifier 10.0.101.1, local AS number 65101
+BGP table version is 200, L2VPN EVPN config peers 2, capable peers 2
+22 network entries and 40 paths using 6088 bytes of memory
+BGP attribute entries [16/2752], BGP AS path entries [2/20]
+BGP community entries [0/0], BGP clusterlist entries [0/0]
 
-172.25.82.0/24, ubest/mbest: 1/0, attached
-    *via 172.25.82.1, Vlan20, [0/0], 1d03h, direct
-172.25.82.1/32, ubest/mbest: 1/0, attached
-    *via 172.25.82.1, Vlan20, [0/0], 1d03h, local
-172.25.82.5/32, ubest/mbest: 1/0, attached
-    *via 172.25.82.5, Vlan20, [190/0], 01:01:17, hmm
-172.25.82.6/32, ubest/mbest: 1/0
-    *via 10.1.100.3%default, [20/0], 01:00:24, bgp-65101, external, tag 65999, s
-egid: 10888 tunnelid: 0xa016403 encap: VXLAN
+Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+10.0.1.1        4 65999    1839    1786      200    0    0 00:45:12 12
+10.0.2.1        4 65999    1852    1797      200    0    0 00:45:12 12
 
+```
+```text
+LEAF-01(config)# sh bgp l2vpn evpn
 
-LEAF-01# sh bgp l2vpn evpn route-type 5 vrf OTUS-VRF1
-Route Distinguisher: 10.0.101.1:3    (L3VNI 10999)
-BGP routing table entry for [5]:[0]:[0]:[0]:[0.0.0.0]/224, version 3049
-Paths: (2 available, best #2)
-Flags: (0x000002) (high32 00000000) on xmit-list, is not in l2rib/evpn, is not i
-n HW
-Multipath: eBGP
+BGP routing table information for VRF default, address family L2VPN EVPN
+BGP table version is 200, Local Router ID is 10.0.101.1
+Status: s-suppressed, x-deleted, S-stale, d-dampened, h-history, *-valid, >-best
+Path type: i-internal, e-external, c-confed, l-local, a-aggregate, r-redist, I-i
+njected
+Origin codes: i - IGP, e - EGP, ? - incomplete, | - multipath, & - backup, 2 - b
+est2
 
-  Path type: external, path is valid, not best reason: newer EBGP path, no label
-ed nexthop
-             Imported from 10.0.104.1:3:[5]:[0]:[0]:[0]:[0.0.0.0]/224
-  Gateway IP: 0.0.0.0
-  AS-Path: 65999 65104 , path sourced external to AS
-    10.1.100.3 (metric 201) from 10.0.2.1 (10.0.2.1)
-      Origin IGP, MED not set, localpref 100, weight 0
-      Received label 10999
-      Extcommunity: RT:65101:10999 ENCAP:8 Router MAC:5007.0000.1b08
+   Network            Next Hop            Metric     LocPrf     Weight Path
+Route Distinguisher: 10.0.101.1:32777    (L2VNI 10010)
+*>l[2]:[0]:[0]:[48]:[5006.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.1                        100      32768 i
+* e[2]:[0]:[0]:[48]:[5008.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+03 i
+* e[2]:[0]:[0]:[48]:[500a.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+03 i
+*>e                   10.1.100.3                                     0 65999 651
+04 i
+*>l[3]:[0]:[32]:[10.1.100.1]/88
+                      10.1.100.1                        100      32768 i
+* e[3]:[0]:[32]:[10.1.100.3]/88
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+03 i
 
-  Advertised path-id 1
-  Path type: external, path is valid, is best path, no labeled nexthop
-             Imported from 10.0.103.1:3:[5]:[0]:[0]:[0]:[0.0.0.0]/224
-  Gateway IP: 0.0.0.0
-  AS-Path: 65999 65103 , path sourced external to AS
-    10.1.100.3 (metric 201) from 10.0.2.1 (10.0.2.1)
-      Origin IGP, MED not set, localpref 100, weight 0
-      Received label 10999
-      Extcommunity: RT:65101:10999 ENCAP:8 Router MAC:5004.0000.1b08
+Route Distinguisher: 10.0.101.1:32787    (L2VNI 10020)
+*>l[2]:[0]:[0]:[48]:[5006.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.1                        100      32768 i
+* e[2]:[0]:[0]:[48]:[5008.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+03 i
+* e[2]:[0]:[0]:[48]:[500a.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+03 i
+*>e                   10.1.100.3                                     0 65999 651
+04 i
+*>l[3]:[0]:[32]:[10.1.100.1]/88
+                      10.1.100.1                        100      32768 i
+* e[3]:[0]:[32]:[10.1.100.3]/88
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+03 i
 
-  Path-id 1 not advertised to any peer
+Route Distinguisher: 10.0.103.1:32777
+* e[2]:[0]:[0]:[48]:[5008.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+03 i
+*>e                   10.1.100.3                                     0 65999 651
+03 i
+*>e[2]:[0]:[0]:[48]:[500a.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+03 i
+* e                   10.1.100.3                                     0 65999 651
+03 i
+* e[3]:[0]:[32]:[10.1.100.3]/88
+                      10.1.100.3                                     0 65999 651
+03 i
+*>e                   10.1.100.3                                     0 65999 651
+03 i
 
-LEAF-01# sh bgp l2vpn evpn route-type 5 vrf OTUS-VRF2
-Route Distinguisher: 10.0.101.1:4    (L3VNI 10888)
-BGP routing table entry for [5]:[0]:[0]:[0]:[0.0.0.0]/224, version 3048
-Paths: (2 available, best #2)
-Flags: (0x000002) (high32 00000000) on xmit-list, is not in l2rib/evpn, is not i
-n HW
-Multipath: eBGP
+Route Distinguisher: 10.0.103.1:32787
+* e[2]:[0]:[0]:[48]:[5008.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+03 i
+*>e                   10.1.100.3                                     0 65999 651
+03 i
+*>e[2]:[0]:[0]:[48]:[500a.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+03 i
+* e                   10.1.100.3                                     0 65999 651
+03 i
+* e[3]:[0]:[32]:[10.1.100.3]/88
+                      10.1.100.3                                     0 65999 651
+03 i
+*>e                   10.1.100.3                                     0 65999 651
+03 i
 
-  Path type: external, path is valid, not best reason: newer EBGP path, no label
-ed nexthop
-             Imported from 10.0.104.1:4:[5]:[0]:[0]:[0]:[0.0.0.0]/224
-  Gateway IP: 0.0.0.0
-  AS-Path: 65999 65104 , path sourced external to AS
-    10.1.100.3 (metric 201) from 10.0.2.1 (10.0.2.1)
-      Origin IGP, MED not set, localpref 100, weight 0
-      Received label 10888
-      Extcommunity: RT:65101:10888 ENCAP:8 Router MAC:5007.0000.1b08
+Route Distinguisher: 10.0.104.1:32777
+* e[2]:[0]:[0]:[48]:[5008.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+04 i
+* e[2]:[0]:[0]:[48]:[500a.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+04 i
+* e[3]:[0]:[32]:[10.1.100.3]/88
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+04 i
 
-  Advertised path-id 1
-  Path type: external, path is valid, is best path, no labeled nexthop
-             Imported from 10.0.103.1:4:[5]:[0]:[0]:[0]:[0.0.0.0]/224
-  Gateway IP: 0.0.0.0
-  AS-Path: 65999 65103 , path sourced external to AS
-    10.1.100.3 (metric 201) from 10.0.2.1 (10.0.2.1)
-      Origin IGP, MED not set, localpref 100, weight 0
-      Received label 10888
-      Extcommunity: RT:65101:10888 ENCAP:8 Router MAC:5004.0000.1b08
-
-  Path-id 1 not advertised to any peer
+Route Distinguisher: 10.0.104.1:32787
+* e[2]:[0]:[0]:[48]:[5008.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+04 i
+* e[2]:[0]:[0]:[48]:[500a.0000.1b08]:[0]:[0.0.0.0]/216
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+04 i
+* e[3]:[0]:[32]:[10.1.100.3]/88
+                      10.1.100.3                                     0 65999 651
+04 i
+*>e                   10.1.100.3                                     0 65999 651
+04 i
 
 
 ```
+```text
+LEAF-01(config)# sh mac address-table
+Legend:
+        * - primary entry, G - Gateway MAC, (R) - Routed MAC, O - Overlay MAC
+        age - seconds since last seen,+ - primary entry using vPC Peer-Link,
+        (T) - True, (F) - False, C - ControlPlane MAC, ~ - vsan
+   VLAN     MAC Address      Type      age     Secure NTFY Ports
+---------+-----------------+--------+---------+------+----+------------------
++   10     5006.0000.1b08   dynamic  0         F      F    Po10
+C   10     5008.0000.1b08   dynamic  0         F      F    nve1(10.1.100.3)
+C   10     500a.0000.1b08   dynamic  0         F      F    nve1(10.1.100.3)
++   20     5006.0000.1b08   dynamic  0         F      F    Po10
+C   20     5008.0000.1b08   dynamic  0         F      F    nve1(10.1.100.3)
+C   20     500a.0000.1b08   dynamic  0         F      F    nve1(10.1.100.3)
+G    -     5001.0000.1b08   static   -         F      F    sup-eth1(R)
+G    -     5001.0000.1b08   static   -         F      F    Lo0(R) (Lo0)
+
+```
+```text
+LEAF-01(config)# sh nve peers
+Interface Peer-IP                                 State LearnType Uptime   Route
+r-Mac
+--------- --------------------------------------  ----- --------- -------- -----
+------------
+nve1      10.1.100.3                              Up    CP        00:46:54 n/a
+```
+```text
+LEAF-01(config)# sh vpc brief
+Legend:
+                (*) - local vPC is down, forwarding via vPC peer-link
+
+vPC domain id                     : 1
+Peer status                       : peer adjacency formed ok
+vPC keep-alive status             : peer is alive
+Configuration consistency status  : success
+Per-vlan consistency status       : success
+Type-2 consistency status         : success
+vPC role                          : primary
+Number of vPCs configured         : 1
+Peer Gateway                      : Enabled
+Dual-active excluded VLANs        : -
+Graceful Consistency Check        : Enabled
+Auto-recovery status              : Disabled
+Delay-restore status              : Timer is off.(timeout = 30s)
+Delay-restore SVI status          : Timer is off.(timeout = 10s)
+Operational Layer3 Peer-router    : Enabled
+Virtual-peerlink mode             : Disabled
+
+vPC Peer-link status
+---------------------------------------------------------------------
+id    Port   Status Active vlans
+--    ----   ------ -------------------------------------------------
+1     Po1    up     1,10,20
+
+
+vPC status
+----------------------------------------------------------------------------
+Id    Port          Status Consistency Reason                Active vlans
+--    ------------  ------ ----------- ------                ---------------
+10    Po10          up     success     success               10,20
+
+```
+
+
 
 ## LEAF-02
 ```text
-LEAF-02(config-if)# sh ip route vrf OTUS-VRF1
-0.0.0.0/0, ubest/mbest: 1/0
-    *via 10.1.100.3%default, [20/0], 00:56:52, bgp-65102, external, tag 65999, s
-egid: 10999 tunnelid: 0xa016403 encap: VXLAN
-
-172.25.81.0/24, ubest/mbest: 1/0, attached
-    *via 172.25.81.1, Vlan10, [0/0], 01:01:03, direct
-172.25.81.1/32, ubest/mbest: 1/0, attached
-    *via 172.25.81.1, Vlan10, [0/0], 01:01:03, local
-172.25.81.5/32, ubest/mbest: 1/0, attached
-    *via 172.25.81.5, Vlan10, [190/0], 00:57:13, hmm (no-redist)
-172.25.81.6/32, ubest/mbest: 1/0
-    *via 10.1.100.3%default, [20/0], 00:57:05, bgp-65102, external, tag 65999, s
-egid: 10999 tunnelid: 0xa016403 encap: VXLAN
-
-
-LEAF-02(config-if)# sh ip route vrf OTUS-VRF2
-0.0.0.0/0, ubest/mbest: 1/0
-    *via 10.1.100.3%default, [20/0], 00:58:35, bgp-65102, external, tag 65999, s
-egid: 10888 tunnelid: 0xa016403 encap: VXLAN
-
-172.25.82.0/24, ubest/mbest: 1/0, attached
-    *via 172.25.82.1, Vlan20, [0/0], 01:02:46, direct
-172.25.82.1/32, ubest/mbest: 1/0, attached
-    *via 172.25.82.1, Vlan20, [0/0], 01:02:46, local
-172.25.82.5/32, ubest/mbest: 1/0, attached
-    *via 172.25.82.5, Vlan20, [190/0], 00:58:56, hmm (no-redist)
-172.25.82.6/32, ubest/mbest: 1/0
-    *via 10.1.100.3%default, [20/0], 00:58:48, bgp-65102, external, tag 65999, s
-egid: 10888 tunnelid: 0xa016403 encap: VXLAN
-
-
-LEAF-02(config-if)# sh bgp l2vpn evpn route-type 5 vrf OTUS-VRF1
-Route Distinguisher: 10.0.102.1:3    (L3VNI 10999)
-BGP routing table entry for [5]:[0]:[0]:[0]:[0.0.0.0]/224, version 626
-Paths: (2 available, best #1)
-Flags: (0x000002) (high32 00000000) on xmit-list, is not in l2rib/evpn, is not i
-n HW
-Multipath: eBGP
-
-  Advertised path-id 1
-  Path type: external, path is valid, is best path, no labeled nexthop
-             Imported from 10.0.104.1:3:[5]:[0]:[0]:[0]:[0.0.0.0]/224
-  Gateway IP: 0.0.0.0
-  AS-Path: 65999 65104 , path sourced external to AS
-    10.1.100.3 (metric 201) from 10.0.2.1 (10.0.2.1)
-      Origin IGP, MED not set, localpref 100, weight 0
-      Received label 10999
-      Extcommunity: RT:65102:10999 ENCAP:8 Router MAC:5007.0000.1b08
-
-  Path type: external, path is valid, not best reason: Neighbor Address, no labe
-led nexthop
-             Imported from 10.0.103.1:3:[5]:[0]:[0]:[0]:[0.0.0.0]/224
-  Gateway IP: 0.0.0.0
-  AS-Path: 65999 65103 , path sourced external to AS
-    10.1.100.3 (metric 201) from 10.0.2.1 (10.0.2.1)
-      Origin IGP, MED not set, localpref 100, weight 0
-      Received label 10999
-      Extcommunity: RT:65102:10999 ENCAP:8 Router MAC:5004.0000.1b08
-
-  Path-id 1 not advertised to any peer
-
-LEAF-02(config-if)# sh bgp l2vpn evpn route-type 5 vrf OTUS-VRF2
-Route Distinguisher: 10.0.102.1:4    (L3VNI 10888)
-BGP routing table entry for [5]:[0]:[0]:[0]:[0.0.0.0]/224, version 627
-Paths: (2 available, best #1)
-Flags: (0x000002) (high32 00000000) on xmit-list, is not in l2rib/evpn, is not i
-n HW
-Multipath: eBGP
-
-  Advertised path-id 1
-  Path type: external, path is valid, is best path, no labeled nexthop
-             Imported from 10.0.104.1:4:[5]:[0]:[0]:[0]:[0.0.0.0]/224
-  Gateway IP: 0.0.0.0
-  AS-Path: 65999 65104 , path sourced external to AS
-    10.1.100.3 (metric 201) from 10.0.2.1 (10.0.2.1)
-      Origin IGP, MED not set, localpref 100, weight 0
-      Received label 10888
-      Extcommunity: RT:65102:10888 ENCAP:8 Router MAC:5007.0000.1b08
-
-  Path type: external, path is valid, not best reason: Neighbor Address, no labe
-led nexthop
-             Imported from 10.0.103.1:4:[5]:[0]:[0]:[0]:[0.0.0.0]/224
-  Gateway IP: 0.0.0.0
-  AS-Path: 65999 65103 , path sourced external to AS
-    10.1.100.3 (metric 201) from 10.0.2.1 (10.0.2.1)
-      Origin IGP, MED not set, localpref 100, weight 0
-      Received label 10888
-      Extcommunity: RT:65102:10888 ENCAP:8 Router MAC:5004.0000.1b08
-
-  Path-id 1 not advertised to any peer
-
-
 ```
-
 ## LEAF-03
 ```text
-LEAF-03(config-if)# sh ip route vrf OTUS-VRF1
-0.0.0.0/0, ubest/mbest: 1/0
-    *via 172.25.99.2, [1/0], 01:24:04, static
-172.25.81.0/24, ubest/mbest: 1/0, attached
-    *via 172.25.81.1, Vlan10, [0/0], 22:25:58, direct
-172.25.81.1/32, ubest/mbest: 1/0, attached
-    *via 172.25.81.1, Vlan10, [0/0], 22:25:58, local
-172.25.81.5/32, ubest/mbest: 1/0
-    *via 10.1.100.1%default, [20/0], 01:00:50, bgp-65103, external, tag 65999, s
-egid: 10999 tunnelid: 0xa016401 encap: VXLAN
-
-172.25.81.6/32, ubest/mbest: 1/0, attached
-    *via 172.25.81.6, Vlan10, [190/0], 01:01:16, hmm
-172.25.99.0/30, ubest/mbest: 1/0, attached
-    *via 172.25.99.1, Vlan777, [0/0], 01:24:51, direct
-172.25.99.1/32, ubest/mbest: 1/0, attached
-    *via 172.25.99.1, Vlan777, [0/0], 01:24:51, local
-
-LEAF-03(config-if)# sh ip route vrf OTUS-VRF2
-0.0.0.0/0, ubest/mbest: 1/0
-    *via 172.25.98.2, [1/0], 01:24:39, static
-172.25.82.0/24, ubest/mbest: 1/0, attached
-    *via 172.25.82.1, Vlan20, [0/0], 22:26:33, direct
-172.25.82.1/32, ubest/mbest: 1/0, attached
-    *via 172.25.82.1, Vlan20, [0/0], 22:26:33, local
-172.25.82.5/32, ubest/mbest: 1/0
-    *via 10.1.100.1%default, [20/0], 01:01:25, bgp-65103, external, tag 65999, s
-egid: 10888 tunnelid: 0xa016401 encap: VXLAN
-
-172.25.82.6/32, ubest/mbest: 1/0, attached
-    *via 172.25.82.6, Vlan20, [190/0], 01:01:51, hmm
-172.25.98.0/30, ubest/mbest: 1/0, attached
-    *via 172.25.98.1, Vlan666, [0/0], 01:25:26, direct
-172.25.98.1/32, ubest/mbest: 1/0, attached
-    *via 172.25.98.1, Vlan666, [0/0], 01:25:26, local
-
-
 ```
 
 ## LEAF-04
 ```text
-
-LEAF-04(config-if)# sh ip route vrf OTUS-VRF1
-0.0.0.0/0, ubest/mbest: 1/0
-    *via 172.25.99.2, [1/0], 01:25:42, static
-172.25.81.0/24, ubest/mbest: 1/0, attached
-    *via 172.25.81.1, Vlan10, [0/0], 01:26:20, direct
-172.25.81.1/32, ubest/mbest: 1/0, attached
-    *via 172.25.81.1, Vlan10, [0/0], 01:26:20, local
-172.25.81.5/32, ubest/mbest: 1/0
-    *via 10.1.100.1%default, [20/0], 01:02:36, bgp-65104, external, tag 65999, s
-egid: 10999 tunnelid: 0xa016401 encap: VXLAN
-
-172.25.81.6/32, ubest/mbest: 1/0, attached
-    *via 172.25.81.6, Vlan10, [190/0], 01:02:54, hmm
-172.25.99.0/30, ubest/mbest: 1/0, attached
-    *via 172.25.99.1, Vlan777, [0/0], 01:26:20, direct
-172.25.99.1/32, ubest/mbest: 1/0, attached
-    *via 172.25.99.1, Vlan777, [0/0], 01:26:20, local
-
-
-LEAF-04(config-if)# sh ip route vrf OTUS-VRF2
-0.0.0.0/0, ubest/mbest: 1/0
-    *via 172.25.98.2, [1/0], 01:25:10, static
-172.25.82.0/24, ubest/mbest: 1/0, attached
-    *via 172.25.82.1, Vlan20, [0/0], 01:25:48, direct
-172.25.82.1/32, ubest/mbest: 1/0, attached
-    *via 172.25.82.1, Vlan20, [0/0], 01:25:48, local
-172.25.82.5/32, ubest/mbest: 1/0
-    *via 10.1.100.1%default, [20/0], 01:02:04, bgp-65104, external, tag 65999, s
-egid: 10888 tunnelid: 0xa016401 encap: VXLAN
-
-172.25.82.6/32, ubest/mbest: 1/0, attached
-    *via 172.25.82.6, Vlan20, [190/0], 01:02:22, hmm
-172.25.98.0/30, ubest/mbest: 1/0, attached
-    *via 172.25.98.1, Vlan666, [0/0], 01:25:48, direct
-172.25.98.1/32, ubest/mbest: 1/0, attached
-    *via 172.25.98.1, Vlan666, [0/0], 01:25:48, local
-
-
 ```
 
 ## HV-01
 ```text
-
-HV-01# sh ip int brief vrf all
-
-IP Interface Status for VRF "VLAN-10"(3)
-Interface            IP Address      Interface Status
-Vlan10               172.25.81.5     protocol-up/link-up/admin-up
-
-IP Interface Status for VRF "VLAN-20"(4)
-Interface            IP Address      Interface Status
-Vlan20               172.25.82.5     protocol-up/link-up/admin-up
-
-
-HV-01# ping 172.25.82.6 vrf VLAN-10
-PING 172.25.82.6 (172.25.82.6): 56 data bytes
-64 bytes from 172.25.82.6: icmp_seq=0 ttl=250 time=17.724 ms
-64 bytes from 172.25.82.6: icmp_seq=1 ttl=250 time=16.429 ms
-64 bytes from 172.25.82.6: icmp_seq=2 ttl=250 time=24.292 ms
-
-HV-01# traceroute 172.25.82.6 vrf VLAN-10
-traceroute to 172.25.82.6 (172.25.82.6), 30 hops max, 40 byte packets
- 1  172.25.81.1 (172.25.81.1)  3.401 ms  3.122 ms  2.236 ms
- 2  172.25.81.1 (172.25.81.1)  9.843 ms  8.446 ms  7.82 ms
- 3  172.25.99.2 (172.25.99.2)  12.769 ms  14.524 ms  12.855 ms
- 4  172.25.98.1 (172.25.98.1)  23.518 ms  16.106 ms  16.05 ms
- 5  172.25.82.6 (172.25.82.6)  18.068 ms  18.701 ms  18.479 ms
-
-HV-01# ping 172.25.81.6 vrf VLAN-20
-PING 172.25.81.6 (172.25.81.6): 56 data bytes
-64 bytes from 172.25.81.6: icmp_seq=0 ttl=250 time=21.9 ms
-64 bytes from 172.25.81.6: icmp_seq=1 ttl=250 time=19.947 ms
-64 bytes from 172.25.81.6: icmp_seq=2 ttl=250 time=16.453 ms
-
-HV-01# traceroute 172.25.81.6 vrf VLAN-20
-traceroute to 172.25.81.6 (172.25.81.6), 30 hops max, 40 byte packets
- 1  172.25.82.1 (172.25.82.1)  3.228 ms  2.63 ms  2.649 ms
- 2  172.25.82.1 (172.25.82.1)  9.017 ms  10.639 ms  9.995 ms
- 3  172.25.98.2 (172.25.98.2)  11.613 ms  10.288 ms  10.692 ms
- 4  172.25.99.1 (172.25.99.1)  11.869 ms  13.05 ms  11.953 ms
- 5  172.25.81.6 (172.25.81.6)  15.833 ms  17.102 ms  15.556 ms
-
 ```
 
 ## HV-02
 ```text
-HV-02# show ip int brief vrf all
 
-IP Interface Status for VRF "VLAN-10"(3)
-Interface            IP Address      Interface Status
-Vlan10               172.25.81.6     protocol-up/link-up/admin-up
-
-IP Interface Status for VRF "VLAN-20"(4)
-Interface            IP Address      Interface Status
-Vlan20               172.25.82.6     protocol-up/link-up/admin-up
-
-HV-02# ping 172.25.82.5 vrf VLAN-10
-PING 172.25.82.5 (172.25.82.5): 56 data bytes
-64 bytes from 172.25.82.5: icmp_seq=0 ttl=250 time=15.628 ms
-64 bytes from 172.25.82.5: icmp_seq=1 ttl=250 time=16.526 ms
-64 bytes from 172.25.82.5: icmp_seq=2 ttl=250 time=14.527 ms
-
-HV-02# traceroute 172.25.82.5 vrf VLAN-10
-traceroute to 172.25.82.5 (172.25.82.5), 30 hops max, 40 byte packets
- 1  172.25.81.1 (172.25.81.1)  3.1 ms  3.02 ms  1.923 ms
- 2  172.25.99.2 (172.25.99.2)  5.641 ms  4.55 ms  4.13 ms
- 3  172.25.98.1 (172.25.98.1)  5.541 ms  5.826 ms  5.456 ms
- 4  172.25.82.1 (172.25.82.1)  14.587 ms  16.142 ms  12.959 ms
- 5  172.25.82.5 (172.25.82.5)  13.343 ms  15.131 ms  15.518 ms
-
-HV-02# ping 172.25.81.5 vrf VLAN-20
-PING 172.25.81.5 (172.25.81.5): 56 data bytes
-64 bytes from 172.25.81.5: icmp_seq=0 ttl=250 time=22.762 ms
-64 bytes from 172.25.81.5: icmp_seq=1 ttl=250 time=21.834 ms
-64 bytes from 172.25.81.5: icmp_seq=2 ttl=250 time=17.55 ms
-
-HV-02# traceroute 172.25.81.5 vrf VLAN-20
-traceroute to 172.25.81.5 (172.25.81.5), 30 hops max, 40 byte packets
- 1  172.25.82.1 (172.25.82.1)  4.676 ms  4.792 ms  2.298 ms
- 2  172.25.98.2 (172.25.98.2)  4.852 ms  5.224 ms  9.029 ms
- 3  172.25.99.1 (172.25.99.1)  8.039 ms  8.579 ms  7.024 ms
- 4  172.25.81.1 (172.25.81.1)  12.792 ms  16.08 ms  13.564 ms
- 5  172.25.81.5 (172.25.81.5)  15.109 ms  19.671 ms  14.963 ms
 ```
 
