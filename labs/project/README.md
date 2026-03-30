@@ -143,7 +143,6 @@
  - [LEAF-02](configs/LEAF-02.txt)
  - [LEAF-03](configs/LEAF-03.txt)
  - [FW-01](configs/FW-01.txt)
- - [FW-01](configs/FW-01.txt)
  - [HV-01](configs/HV-01.txt)
  - [HV-02](configs/HV-02.txt)
 
